@@ -21,7 +21,9 @@ spring:
     static-path-pattern: /**
   resources:
     static-locations: classpath:/
-
+    hiddenmethod:
+      filter:
+        enabled: true
 
 # Mybatis-Plus \u914D\u7F6E
 mybatis-plus:
