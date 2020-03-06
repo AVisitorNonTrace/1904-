@@ -49,14 +49,25 @@ public class ShiroConfiguration {
         // 设置securityManager
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         // 设置默认登录的 URL，身份认证失败会访问该 URL
-        shiroFilterFactoryBean.setLoginUrl("/toLogin");
+        shiroFilterFactoryBean.setLoginUrl("/user/toLogin");
         // 设置成功之后要跳转的链接
-        shiroFilterFactoryBean.setSuccessUrl("/toIndex");
+        shiroFilterFactoryBean.setSuccessUrl("/user/toIndex");
         // 设置未授权界面，权限认证失败会访问该 URL
         shiroFilterFactoryBean.setUnauthorizedUrl("/403.jsp");
         Map<String, String> filters = new HashMap<>();
-        filters.put("/login", "anon"); // anon 表示不需要认证
-        filters.put("/**", "authc"); // authc 表示必须认证才可访问
+        filters.put("/user/toLogin", "anon"); // anon 表示不需要认证
+        filters.put("/user/getSalt", "anon"); // anon 表示不需要认证
+        filters.put("/user/login", "anon"); // anon 表示不需要认证
+        filters.put("/user/toAdd", "anon"); // anon 表示不需要认证
+        filters.put("/user/add", "anon"); // anon 表示不需要认证
+        filters.put("/user/findByName", "anon"); // anon 表示不需要认证
+        filters.put("/user/findByPhone", "anon"); // anon 表示不需要认证
+        filters.put("/user/findByUserEmail", "anon"); // anon 表示不需要认证
+        filters.put("/user/active", "anon"); // anon 表示不需要认证
+        filters.put("/user/toLoginPhone", "anon"); // anon 表示不需要认证
+        filters.put("/user/send", "anon"); // anon 表示不需要认证
+        filters.put("/user/loginPhoneMessages", "anon"); // anon 表示不需要认证
+       /* filters.put("/**", "authc"); // authc 表示必须认证才可访问*/
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filters);
         return shiroFilterFactoryBean;
     }
