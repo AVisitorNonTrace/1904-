@@ -48,18 +48,17 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
- <!--       <dependency>
+       <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring-boot-starter</artifactId>
             <version>1.4.2</version>
         </dependency>
 
-        &lt;!&ndash; Shiro WEB 项目依赖 &ndash;&gt;
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring-boot-web-starter</artifactId>
             <version>1.4.2</version>
-        </dependency>-->
+        </dependency>
         <!-- 引入log4j2依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
