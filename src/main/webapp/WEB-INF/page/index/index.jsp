@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>点金教育商城</title>
+<title>点金挂号系统</title>
 </head>
 
 <frameset rows="15%,*" >

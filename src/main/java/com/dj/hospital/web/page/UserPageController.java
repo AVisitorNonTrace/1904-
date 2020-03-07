@@ -1,9 +1,6 @@
 package com.dj.hospital.web.page;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.dj.hospital.common.ResultModel;
-import com.dj.hospital.common.SystemConstant;
-import com.dj.hospital.config.JavaEmailUtils;
 import com.dj.hospital.pojo.User;
 import com.dj.hospital.service.UserService;
 import com.dj.hospital.utils.PasswordSecurityUtil;
@@ -12,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Date;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user/")
@@ -63,6 +60,15 @@ public class UserPageController {
     @RequestMapping("toLoginPhone")
     public String toLoginPhone() {
         return "user/login_phone";
+    }
+
+    /**
+     *  退出_session失效
+     */
+    @RequestMapping("quit")
+    public String quit(HttpSession session) {
+        session.invalidate();
+        return "/user/login";
     }
 
 }
