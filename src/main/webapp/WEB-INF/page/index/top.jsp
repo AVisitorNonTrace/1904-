@@ -16,7 +16,7 @@
 
 <body >
 
-		<h1 align="center">${user.userName}欢迎来到点金挂号系统</h1>
+		<h1 align="center">欢迎${USER.userName}来到点金挂号系统</h1>
 		<input type = "button" value = "退出" onclick="quit()"/><br>
 		<div id="datetime" align="right" style="color:black">
 			<script>

@@ -9,8 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpSession;
-
 @Controller
 @RequestMapping("/user/")
 public class UserPageController {
@@ -66,8 +64,7 @@ public class UserPageController {
      *  退出_session失效
      */
     @RequestMapping("quit")
-    public String quit(HttpSession session) {
-        session.invalidate();
+    public String quit() {
         return "/user/login";
     }
 

@@ -67,7 +67,7 @@ public class ShiroConfiguration {
         filters.put("/user/toLoginPhone", "anon"); // anon 表示不需要认证
         filters.put("/user/send", "anon"); // anon 表示不需要认证
         filters.put("/user/loginPhoneMessages", "anon"); // anon 表示不需要认证
-        filters.put("/user/quit", "anon"); // anon 表示不需要认证
+        filters.put("/logout", "logout"); // anon 表示不需要认证
        /* filters.put("/**", "authc"); // authc 表示必须认证才可访问*/
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filters);
         return shiroFilterFactoryBean;

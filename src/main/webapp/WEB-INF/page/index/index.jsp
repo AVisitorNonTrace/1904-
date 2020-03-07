@@ -7,7 +7,7 @@
 <title>点金挂号系统</title>
 </head>
 
-<frameset rows="15%,*" >
+<frameset rows="19%,*" >
 		<frame src="<%=request.getContextPath()%>/index/toTop" name="top">
 		<frameset cols="15%,*">
 				<frame src="<%=request.getContextPath()%>/index/toLeft" name="left">
