@@ -1,5 +1,6 @@
 package com.dj.hospital.web.page;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.dj.hospital.pojo.User;
 import com.dj.hospital.service.UserService;
@@ -7,7 +8,9 @@ import com.dj.hospital.utils.PasswordSecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/user/")
@@ -68,4 +71,25 @@ public class UserPageController {
         return "/user/login";
     }
 
+    /**
+     * 找回密码
+     */
+    @RequestMapping("toFind")
+    public String toFind(){ return "user/find_pwd"; }
+
+    /**
+     * 找回密码
+     */
+    @RequestMapping("toUpdatePwd/{id}")
+    public ModelAndView toUpdatePwd(@PathVariable("id") Integer id) throws Exception {
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("id", id);
+        User user = userService.getOne(wrapper);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("user/update_pwd");
+        modelAndView.addObject("user", user);
+        String salt = PasswordSecurityUtil.generateSalt();
+        modelAndView.addObject("salt",salt);
+        return modelAndView;
+    }
 }

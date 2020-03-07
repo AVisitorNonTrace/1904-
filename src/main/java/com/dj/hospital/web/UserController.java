@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/user/")
@@ -192,6 +193,38 @@ public class UserController {
             e.printStackTrace();
             return new ResultModel<>().error(e.getMessage());
         }
+    }
+
+    /**
+     * 找回密码
+     * @param user
+     * @return
+     */
+    @PostMapping("find")
+    public ResultModel<Object> show(User user) {
+        HashMap<String, Object> map = new HashMap<>();
+        try {
+            QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+            queryWrapper.or(i -> i.eq("user_name", user.getUserName())
+                    .or().eq("phone", user.getPhone())
+                    .or().eq("user_email", user.getUserEmail()));
+            User user1 = userService.getOne(queryWrapper);
+            if (null == user1) {
+                return new ResultModel<Object>().error("信息错误，请重新填写");
+            }
+            map.put("id", user1.getId());
+            map.put("msg", "信息正确，请重新设置您的密码");
+            return new ResultModel<>().success(map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel<>().error(e.getMessage());
+        }
+    }
+
+    @PostMapping
+    public ResultModel<Object> update(User user) {
+        userService.updateById(user);
+        return new ResultModel<>().success();
     }
 
 }
