@@ -204,16 +204,20 @@ public class UserController {
     public ResultModel<Object> show(User user) {
         HashMap<String, Object> map = new HashMap<>();
         try {
+            if (StringUtils.isEmpty(user.getPhone()) || StringUtils.isEmpty(user.getCode())) {
+                return new ResultModel<>().error("输入框不能为空");
+            }
             QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-            queryWrapper.or(i -> i.eq("user_name", user.getUserName())
-                    .or().eq("phone", user.getPhone())
-                    .or().eq("user_email", user.getUserEmail()));
+            queryWrapper.eq("phone",user.getPhone()).eq("code",user.getCode());
             User user1 = userService.getOne(queryWrapper);
             if (null == user1) {
-                return new ResultModel<Object>().error("信息错误，请重新填写");
+                return new ResultModel<Object>().error("手机号或验证码错误");
+            }
+            if (user1.getCodeTime().before(new Date())) {
+                return new ResultModel<Object>().error("验证码已失效");
             }
             map.put("id", user1.getId());
-            map.put("msg", "信息正确，请重新设置您的密码");
+            map.put("msg", 200);
             return new ResultModel<>().success(map);
         } catch (Exception e) {
             e.printStackTrace();
