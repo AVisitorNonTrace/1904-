@@ -35,7 +35,12 @@ public class User extends BasePojo{
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date codeTime;
 
+    private String subject;
 
+    /**
+     * 1管理员2医生3患者
+     */
+    private String type;
 
 
 
