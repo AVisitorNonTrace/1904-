@@ -142,6 +142,7 @@
 
         $.validator.setDefaults({
             submitHandler: function() {
+                var types = $("#types").val();
                 var index = layer.load(0, {shade:0.5});
                 //MD5(原密码)
                 var pwd = md5($("#password").val());
@@ -158,10 +159,19 @@
                                 layer.close(index);
                                 return;
                             }
-                            if (${USER.type == '1'}){
-                                parent.window.location.href = "<%=request.getContextPath()%>/user/toShow";
+                            if (${USER.type != '1'}){
+                                window.location.href = "<%=request.getContextPath()%>/user/toLogin";
                             }
-                            window.location.href = "<%=request.getContextPath()%>/user/toLogin";
+                            if (types == "4"){
+                                parent.window.location.href = "<%=request.getContextPath()%>/user/toShow?types="+"4";
+                                return;
+                            }
+                            if (types == "1"){
+                                parent.window.location.href = "<%=request.getContextPath()%>/user/toShow?types="+"1";
+                                return;
+                            }
+                            //parent.window.location.href = "<%=request.getContextPath()%>/user/toShow";
+
                         });
                     })
             }
@@ -178,6 +188,7 @@
 <form id = "fm">
     <input type="hidden" name="status" value="-1"/>
     <input type="hidden" name="salt" value="${salt}" id="salt">
+    <input type="hidden" name="types" value="${types}" id="types"/>
     用户名:<input type = "text" name = "userName" id = "userName"/><br/>
     手机号:<input type = "text" name = "phone" id = "phone"/><br/>
     邮箱:<input type = "text" name = "userEmail" id = "userEmail"/><br/>
@@ -189,9 +200,11 @@
         <input type = "radio" name = "sex" value="2"/>女<br/>
     <div id="sexError"></div>
     <select name="type">
-        <option value="3">患者</option>
-        <option value="2">医生</option>
-        <c:if test="${USER.type == '1'}">
+        <c:if test="${types != '1'}">
+            <option value="3">患者</option>
+            <option value="2">医生</option>
+        </c:if>
+        <c:if test="${USER.type == '1' &&  types == '1'}">
             <option value="1">管理员</option>
         </c:if>
     </select><br/>

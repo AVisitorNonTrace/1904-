@@ -200,7 +200,7 @@ public class UserController {
             User user = (User) session.getAttribute("USER");
             //定义_开始页_size
             QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-            //患者医生只能看到自己
+            //患者/医生只能看到自己
             if (user.getType().equals(SystemConstant.TYPE_SICK) || user.getType().equals(SystemConstant.TYPE_DOCTOR)){
                 queryWrapper.eq("id",user.getId());
                 IPage<User> pageInfo = userService.page(page,queryWrapper);
@@ -225,6 +225,7 @@ public class UserController {
             //管理员看医生和患者__人员管理
             if (types.equals(SystemConstant.TYPE_DOCTOR_SICK)){
                 queryWrapper.ne("type",SystemConstant.TYPE_ADMIN);
+                queryWrapper.orderByDesc("id").eq("is_del",SystemConstant.IS_NOT_DEL);
                 IPage<User> pageInfo = userService.page(page,queryWrapper);
                 //返回_总页码
                 map.put("totalNum", pageInfo.getPages());
@@ -235,6 +236,7 @@ public class UserController {
             //管理员看自己__管理员管理
             if (types.equals(SystemConstant.TYPE_ADMIN)){
                 queryWrapper.eq("type",SystemConstant.TYPE_ADMIN);
+                queryWrapper.orderByDesc("id").eq("is_del",SystemConstant.IS_NOT_DEL);
                 IPage<User> pageInfo = userService.page(page,queryWrapper);
                 //返回_总页码
                 map.put("totalNum", pageInfo.getPages());

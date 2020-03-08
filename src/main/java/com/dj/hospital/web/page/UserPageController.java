@@ -44,9 +44,10 @@ public class UserPageController {
      *  去注册
      */
     @RequestMapping("toAdd")
-    public String toAdd(ModelMap model) throws Exception {
+    public String toAdd(String types, ModelMap model) throws Exception {
         String salt = PasswordSecurityUtil.generateSalt();
         model.put("salt",salt);
+        model.put("types",types);
         return "user/add";
     }
 
@@ -102,12 +103,13 @@ public class UserPageController {
     /**
      *  张慧_去修改
      */
-    @RequestMapping("toUpdate/{id}")
-    public String toUpdate(@PathVariable Integer id,ModelMap map) {
+    @RequestMapping("toUpdate")
+    public String toUpdate(Integer id,String types, ModelMap map) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id",id);
         User user = userService.getOne(queryWrapper);
         map.put("user",user);
+        map.put("types",types);
         return "user/update";
     }
     /**

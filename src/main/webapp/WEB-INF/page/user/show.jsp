@@ -94,13 +94,32 @@
             layer.msg('只能选择一个');
         } else {
             var id = chkValue.val();
+            var types = $("#types").val();
             layer.open({
                 type: 2,
                 title: '修改页',
                 shadeClose: true,
                 shade: 0.8,
                 area: ['380px', '90%'],
-                content: '<%=request.getContextPath()%>/user/toUpdate/'+id //iframe的url
+                content: '<%=request.getContextPath()%>/user/toUpdate?id='+id+"&types="+types //iframe的url
+            });
+        }
+    }
+    function toUpdateDocAndSick() {
+        var chkValue = $('input[name="ids"]:checked');
+        if (chkValue.length == 0) {
+            layer.msg('请选择');
+        } else if (chkValue.length > 1) {
+            layer.msg('只能选择一个');
+        } else {
+            var id = chkValue.val();
+            layer.open({
+                type: 2,
+                title: '修改页',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['380px', '90%'],
+                content: '<%=request.getContextPath()%>/user/toUpdate?id='+id //iframe的url
             });
         }
     }
@@ -112,6 +131,7 @@
         } else if (chkValue.length > 1) {
             layer.msg('只能选择一个');
         } else {
+            var types = $("#types").val();
             var id = chkValue.val();
             var index = layer.load(0, {shade:0.5});
             $.post("<%=request.getContextPath()%>/user/",
@@ -123,6 +143,14 @@
                             layer.close(index);
                             return;
                         }
+                        if (types == "4"){
+                            window.location.href = "<%=request.getContextPath()%>/user/toShow?types="+"4";
+                            return;
+                        }
+                        if (types == "1"){
+                            window.location.href = "<%=request.getContextPath()%>/user/toShow?types="+"1";
+                            return;
+                        }
                         window.location.href = "<%=request.getContextPath()%>/user/toShow";
                     });
 
@@ -130,13 +158,14 @@
         }
     }
     function add(){
+        var types = $("#types").val();
         layer.open({
             type: 2,
             title: '添加用户',
             shadeClose: false,
             shade: 0.8,
             area: ['380px', '90%'],
-            content: '<%=request.getContextPath()%>/user/toAdd' //iframe的url
+            content: '<%=request.getContextPath()%>/user/toAdd?types='+types //iframe的url
         });
     }
 
@@ -151,7 +180,7 @@
     <br/>
     <br/>
     <input type="hidden" name="_method" value="get"/>
-    <input type="hidden" name="types" value="${types}"/>
+    <input type="hidden" name="types" value="${types}" id="types"/>
     <input type="hidden" value="1" id="pageNo" name="pageNo">
     <c:if test="${USER.type == '1'}">
         用户名:<input type = "text" name = "userName"/><br/><br/>
@@ -167,11 +196,14 @@
         <button type = "button" class="layui-btn layui-btn-normal" onclick = "find()"/>搜索</div>
            <button type="button"  class="layui-btn layui-btn-normal" onclick="add()"/>增加</button>
         <button type="button" class="layui-btn layui-btn-normal" onclick="del()"/>删除</button>
+        <button type="button" class="layui-btn layui-btn-normal" onclick="toUpdate()"/>编辑</button>
     </div>
     </c:if>
-    <div class="layui-btn-group">
-            <button type="button" class="layui-btn layui-btn-normal" onclick="toUpdate()"/>编辑</button>
-    </div>
+    <c:if test="${USER.type != '1'}">
+        <div class="layui-btn-group">
+                <button type="button" class="layui-btn layui-btn-normal" onclick="toUpdateDocAndSick()"/>编辑</button>
+        </div>
+    </c:if>
     <table class="layui-table"  cellpadding="10px">
         <tr>
                 <td></td>
