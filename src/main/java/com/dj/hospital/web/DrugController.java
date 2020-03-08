@@ -8,6 +8,7 @@ import com.dj.hospital.common.SystemConstant;
 import com.dj.hospital.pojo.Drug;
 import com.dj.hospital.service.DrugService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,5 +44,40 @@ public class DrugController {
         }
     }
 
+    /**
+     * 药品去重
+     */
+    @PostMapping("findByName")
+    public Boolean findByName(String drugName) {
+        QueryWrapper<Drug> queryWrapper = new QueryWrapper<>();
+        queryWrapper.or().eq("drug_name", drugName);
+        Drug drug = drugService.getOne(queryWrapper);
+        return null == drug ? true : false;
+    }
 
+    /**
+     * 药品增加
+     */
+    @RequestMapping("add")
+    public ResultModel<Object> save(Drug drug) {
+        try {
+            drugService.save(drug);
+            return new ResultModel<>().success("注册成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel<>().error(e.getMessage());
+        }
+    }
+
+    @PostMapping
+    public ResultModel<Object> update(Drug drug) {
+        drugService.updateById(drug);
+        return new ResultModel<>().success();
+    }
+
+    @DeleteMapping
+    public ResultModel<Object> del(Drug drug) {
+        drugService.updateById(drug);
+        return new ResultModel<>().success();
+    }
 }
