@@ -103,5 +103,9 @@ public class UserPageController {
         map.put("user",user);
         return "user/update";
     }
-
+    /**
+     * 首页展示
+     */
+    @RequestMapping("toIndex")
+    public String toIndex(){ return "user/index"; }
 }

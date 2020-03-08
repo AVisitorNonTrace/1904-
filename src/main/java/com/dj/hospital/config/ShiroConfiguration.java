@@ -57,6 +57,7 @@ public class ShiroConfiguration {
         shiroFilterFactoryBean.setUnauthorizedUrl("/403.jsp");
         Map<String, String> filters = new LinkedHashMap<>();
         //Map<String, String> filters = new HashMap<>();
+        filters.put("/user/toIndex", "anon"); // anon 表示不需要认证
         filters.put("/user/toLogin", "anon"); // anon 表示不需要认证
         filters.put("/user/getSalt", "anon"); // anon 表示不需要认证
         filters.put("/user/login", "anon"); // anon 表示不需要认证
