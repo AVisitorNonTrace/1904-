@@ -4,7 +4,6 @@ import com.aliyuncs.exceptions.ClientException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dj.hospital.common.ResultModel;
 import com.dj.hospital.common.SystemConstant;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -193,7 +191,7 @@ public class UserController {
      * 张慧_用户展示
      */
     @PostMapping("list")
-    public ResultModel<Object> list(User user1, String types, Integer pageNo,HttpSession session){
+    public ResultModel<Object> list(User user1, String types, Integer pageNo, HttpSession session){
         HashMap<String,Object> map = new HashMap<>();
         try {
             IPage<User> page = new Page<>(pageNo,SystemConstant.PAGE_SIZE);
@@ -251,6 +249,39 @@ public class UserController {
             //map.put("totalNum", pageInfo.getPages());
             //返回_展示数据
             //map.put("userList", pageInfo.getRecords());
+            return new ResultModel<>().success(map);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel<>().error(e.getMessage());
+        }
+    }
+    /**
+     * 张慧_用户展示
+     */
+    @PostMapping("doctorShow")
+    public ResultModel<Object> doctorShow(User user1, Integer pageNo){
+        HashMap<String,Object> map = new HashMap<>();
+        try {
+            IPage<User> page = new Page<>(pageNo,SystemConstant.PAGE_SIZE);
+            //定义_开始页_size
+            QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+           queryWrapper.eq("type", "2");
+
+            if (!StringUtils.isEmpty(user1.getUserName())) {
+                queryWrapper.or(i -> i.like("user_name", user1.getUserName())
+                        .or().like("phone", user1.getUserName())
+                        .or().like("user_email", user1.getUserName()));
+            }
+            if (null != user1.getSex()) {
+                queryWrapper.eq("sex",user1.getSex());
+            }
+            queryWrapper.orderByDesc("id").eq("is_del",SystemConstant.IS_NOT_DEL);
+            IPage<User> pageInfo = userService.page(page,queryWrapper);
+            //返回_总页码
+            map.put("totalNum", pageInfo.getPages());
+            //返回_展示数据
+            map.put("userList", pageInfo.getRecords());
             return new ResultModel<>().success(map);
 
         } catch (Exception e) {

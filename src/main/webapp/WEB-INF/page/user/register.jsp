@@ -32,7 +32,7 @@
                             layer.close(index);
                             return;
                         }
-                       window.location.href = "<%=request.getContextPath()%>/user/toShow";
+                       parent.window.location.href = "<%=request.getContextPath()%>/register/toShow";
                     });
 
                 })
@@ -41,22 +41,19 @@
     </script>
 </head>
 <body>
-<center>
+
     <form id = "fm">
-<h1>预约挂号</h1>
-   病名:<input type="text" name="illnessName"/><br>
-    预约医生:<select name="doctorId">
-<c:forEach items="${doctorlist}" var="doc">
-    <option value="${doc.id}">${doc.userName}</option>
-</c:forEach>
-    </select><br>
-   预约时间:
-    <input type="text" name="updateTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="Wdate" style="width:200px">
-    <br></br>备注:<input type="text" name="remarks"/><br>
+        <h1>预约挂号</h1><br><br>
+        病名:<input type="text" name="illnessName"/><br><br>
+        预约医生:<span style="color: red">${user.userName}</span><br><br>
+        预约医生科室:<span style="color: red">${user.doctorWork}</span><br><br>
+        备注:<input type="text" name="remarks"/><br><br>
     <input type = "hidden" name = "userId" value = "${USER.id}"/>
+    <input type = "hidden" name = "doctorId" value = "${user.id}"/>
     <input type = "hidden" name = "orderStatus" value = "1"/>
     <input type="button" value="预约" onclick="register()"/>
-</form>
-</center>
+
+    </form>
+
 </body>
 </html>

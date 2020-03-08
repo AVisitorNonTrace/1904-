@@ -9,6 +9,7 @@ import com.dj.hospital.common.SystemConstant;
 import com.dj.hospital.pojo.Register;
 import com.dj.hospital.pojo.User;
 import com.dj.hospital.service.RegisterService;
+import com.dj.hospital.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping("/register/")
@@ -25,6 +27,8 @@ public class RegisterController {
 
     @Autowired
     private RegisterService registerService;
+    @Autowired
+    private UserService userService;
 
     /**
      * 预约
@@ -32,6 +36,28 @@ public class RegisterController {
     @RequestMapping("add")
     public ResultModel<Object> save(Register register) {
         try {
+            QueryWrapper<Register> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("user_id", register.getUserId())
+                        .eq("is_del", SystemConstant.IS_NOT_DEL);
+            List<Register> registerList = registerService.list(queryWrapper);
+            QueryWrapper<Register> wrapper = new QueryWrapper<>();
+            wrapper.eq("doctor_id", register.getDoctorId());
+            List<Register> list = registerService.list(wrapper);
+            QueryWrapper<Register> registerQueryWrapper = new QueryWrapper<>();
+            registerQueryWrapper.eq("doctor_id", register.getDoctorId())
+                    .eq("user_id", register.getUserId()).eq("is_del", SystemConstant.IS_NOT_DEL);
+            Register register1 = registerService.getOne(registerQueryWrapper);
+            if (register1!= null && register1.getDoctorId().equals(register.getDoctorId())) {
+                return new ResultModel<>().error("您也预约过该医生,请等待!");
+            }
+            if (registerList.size()  == 1) {
+                return new ResultModel<>().error("您最多预约一位医生,如果需要预约其他医生,请去取消!");
+            }
+            if (list.size() == 5) {
+                return new ResultModel<>().error("该医生已经预约了很多人了,请等待再进行预约!");
+            }
+
+
             register.setCreateTime(new Date()).setIsDel(SystemConstant.IS_NOT_DEL);
             registerService.save(register);
             return new ResultModel<>().success("预约成功");
@@ -40,7 +66,6 @@ public class RegisterController {
             return new ResultModel<>().error(e.getMessage());
         }
     }
-
     /**
      * 预约展示
      */

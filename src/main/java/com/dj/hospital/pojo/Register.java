@@ -13,9 +13,9 @@ public class Register extends BasePojo{
     /**
      * 预约状态1预约成功2预约中3预约结束
      */
-    private String orderStatus;
+    private Integer orderStatus;
 
-    private String doctorId;
+    private Integer doctorId;
 
     private String illnessName;
 

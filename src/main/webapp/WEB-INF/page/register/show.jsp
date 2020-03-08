@@ -44,16 +44,14 @@
                     html += "<td>"+u.illnessName+"</td>";
                     html += "<td>"+u.remarks+"</td>";
                     html += "<td>"+u.orderStatus+"</td>";
-                    html += "<td>"+u.updateTime+"</td>";
+                    html += "<td>"+u.createTime+"</td>";
                     html += "</tr>";
                 }
                 $("#tbd").html(html);
-                if(${USER.type}!=3){
                 var pageNo = $("#pageNo").val();
                 var pageHtml = "<input type='button' class='layui-btn layui-btn-primary layui-btn-radius' value='上一页' onclick='page("+(parseInt(pageNo) - 1)+")'>";
                 pageHtml += "<input type='button' class='layui-btn layui-btn-primary layui-btn-radius' value='下一页' onclick='page("+(parseInt(pageNo) + 1)+")')'>";
                 $("#pageInfo").html(pageHtml);
-                }
 
             });
     }

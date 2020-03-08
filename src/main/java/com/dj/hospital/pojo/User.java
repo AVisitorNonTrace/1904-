@@ -54,4 +54,6 @@ public class User extends BasePojo{
         }
         return "管理员";
     }
+
+    private String doctorWork;
 }

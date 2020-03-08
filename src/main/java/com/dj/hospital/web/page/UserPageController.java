@@ -2,7 +2,6 @@ package com.dj.hospital.web.page;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.dj.hospital.mapper.UserMapper;
 import com.dj.hospital.pojo.User;
 import com.dj.hospital.service.UserService;
 import com.dj.hospital.utils.PasswordSecurityUtil;
@@ -14,16 +13,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-
 @Controller
 @RequestMapping("/user/")
 public class UserPageController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private UserMapper userMapper;
+
 
     /**
      * 去登录
@@ -122,11 +118,16 @@ public class UserPageController {
      * 去挂号
      */
     @RequestMapping("toRegister")
-    public String toRegister(Model model){
-        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("type",2);
-        List<User> doctorlist = userMapper.selectList(queryWrapper);
-        model.addAttribute("doctorlist",doctorlist);
+    public String toRegister(Integer id, Model model){
+        User user = userService.getById(id);
+        model.addAttribute("user", user);
         return "user/register";
+    }
+    /**
+     * 去展示医生
+     */
+    @RequestMapping("toShowDoctor")
+    public String toShowDoctor(){
+        return "user/show_doctor";
     }
 }
