@@ -1,6 +1,8 @@
 package com.dj.hospital.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.dj.hospital.common.SystemConstant;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -35,13 +37,23 @@ public class User extends BasePojo{
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date codeTime;
 
-    private String subject;
+   /* private String subject;*/
 
     /**
      * 1管理员2医生3患者
      */
     private String type;
+    @TableField(exist = false)
+    private String typeShow;
 
-
+    public String getTypeShow() {
+        if (null != type && type.equals(SystemConstant.TYPE_DOCTOR)) {
+            return "医生";
+        }
+        if (null != type && type.equals(SystemConstant.TYPE_SICK)) {
+            return "患者";
+        }
+        return "管理员";
+    }
 
 }

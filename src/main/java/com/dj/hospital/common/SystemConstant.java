@@ -22,5 +22,20 @@ public interface SystemConstant {
      */
     Integer IS_DEL = 0;
 
+    /**
+     * 每页size
+     */
+    Integer PAGE_SIZE = 5;
+
+    /**
+     * 患者
+     */
+    String TYPE_SICK = "3";
+
+    /**
+     * 医生
+     */
+    String TYPE_DOCTOR = "2";
+
 
 }

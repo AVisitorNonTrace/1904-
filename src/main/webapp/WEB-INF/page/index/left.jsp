@@ -33,8 +33,10 @@
     </style>
 </head>
 <body align="center"lay-size="20px">
-    <center>
-        <c:if test="${user.status==2}">
+
+    <a href="<%=request.getContextPath()%>/user/toShow" target="right"><h1>用户管理</h1></a>
+    <div style="text-align: center;">
+        <c:if test="${USER.status==2}">
         <div class="goto"><a href="<%=request.getContextPath()%>/user/toShow" target="right">学生信息</a></div><br><br>
             <div class="goto"><a href="<%=request.getContextPath()%>/sub/toShow" target="right">选修课程管理</a></div><br><br>
         </c:if>
@@ -48,7 +50,7 @@
             <div class="goto"><a href="<%=request.getContextPath()%>/user/toStudentShow" target="right">身份证信息上传</a></div><br><br>
         </c:if>
 
-    </center>
+    </div>
 </body>
 <script>
 

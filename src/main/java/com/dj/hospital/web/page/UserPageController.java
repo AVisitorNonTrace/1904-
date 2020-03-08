@@ -1,5 +1,6 @@
 package com.dj.hospital.web.page;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.dj.hospital.pojo.User;
 import com.dj.hospital.service.UserService;
@@ -7,6 +8,7 @@ import com.dj.hospital.utils.PasswordSecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -66,6 +68,18 @@ public class UserPageController {
     @RequestMapping("quit")
     public String quit() {
         return "/user/login";
+    }
+
+    /**
+     *  张慧_去修改
+     */
+    @RequestMapping("toUpdate/{id}")
+    public String toUpdate(@PathVariable Integer id,ModelMap map) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id",id);
+        User user = userService.getOne(queryWrapper);
+        map.put("user",user);
+        return "user/update";
     }
 
 }
