@@ -158,6 +158,9 @@
                                 layer.close(index);
                                 return;
                             }
+                            if (${USER.type == '1'}){
+                                parent.window.location.href = "<%=request.getContextPath()%>/user/toShow";
+                            }
                             window.location.href = "<%=request.getContextPath()%>/user/toLogin";
                         });
                     })
@@ -188,10 +191,14 @@
     <select name="type">
         <option value="3">患者</option>
         <option value="2">医生</option>
-        <option value="1">管理员</option>
+        <c:if test="${USER.type == '1'}">
+            <option value="1">管理员</option>
+        </c:if>
     </select><br/>
     <input type = "submit"/>
-    <a href="<%=request.getContextPath()%>/user/toLogin">不注册了,返回登录页面</a>
+    <c:if test="${USER.type != '1'}">
+     <a href="<%=request.getContextPath()%>/user/toLogin">不注册了,返回登录页面</a>
+    </c:if>
 
 </form>
 
