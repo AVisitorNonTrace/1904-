@@ -5,17 +5,24 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script type="text/javascript" src="<%=request.getContextPath()%>/res/js/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript">
+		function quit() {
+			window.location.href = "<%=request.getContextPath()%>/user/quit";
+		}
+	</script>
 <title>Insert title here</title>
 
 </head>
 
 <body >
-			
-			
-		<h1 align="center">${user.userName}欢迎来到学生管理系统</h1>
-		
-		<div align="left"><a href="<%=request.getContextPath() %>/user/exitLoginUser"><font color="gray">退出</font></a></div>
-		
+
+		<h1 align="center">欢迎${USER.userName}来到点金挂号系统</h1>
+		<input type = "button" value = "退出" onclick="quit()"/><br>
+		<div id="datetime" align="right" style="color:black">
+			<script>
+				setInterval("document.getElementById('datetime').innerHTML=new Date().toLocaleString();", 1000);
+			</script>
+		</div>
 		
 </body>
 </html>
