@@ -15,45 +15,6 @@
 <script src="https://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
     <script type="text/javascript">
 
-        jQuery.validator.addMethod("phone",
-            function(value, element) {
-                var tel = /^1[3456789]\d{9}$/;
-                return tel.test(value)
-            }, "请正确填写您的手机号");
-
-        jQuery.validator.addMethod("email",
-            function(value, element) {
-                var tel = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
-                return tel.test(value)
-            }, "请正确填写您的邮箱编号");
-
-
-
-        $(function() {
-            $("#fm").validate({
-
-                rules:{
-                    password:{
-                        required:true,
-                        minlength:6,
-                    }
-
-                },
-                messages:{
-                    password:{
-                        required:"请填写手机号",
-                        minlength:"最少两个字",
-                    }
-
-                }
-
-            })
-        })
-
-
-
-
-
         function update() {
             var index = layer.load(0, {shade:0.5});
             //MD5(原密码)
@@ -70,7 +31,7 @@
 
                     layer.msg(data.msg, function(){
                         if (data.code != 200) {
-                            layer.close("信息不符");
+                            layer.close(index);
                             return;
                         }
                         parent.window.location.href = "<%=request.getContextPath()%>/user/toLogin";
@@ -95,7 +56,6 @@
             <input type = "hidden" name = "sex" value = "${user.sex}"/>
             <input type = "hidden" name = "age" value = "${user.age}"/>
             <input type = "hidden" name = "code" value = "${user.code}"/>
-            <input type = "hidden" name = "codeTime" value = "${user.codeTime}"/>
         <input type="hidden" name="salt" value="${salt}" id="salt">
         密码:<input type = "password" name = "password" id = "password"/><br/>
         <input type = "button" value="重置密码" onclick="update()"/><br/>

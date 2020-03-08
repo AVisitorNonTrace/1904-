@@ -15,93 +15,74 @@
 
     <script type="text/javascript">
 
-        jQuery.validator.addMethod("phone",
-            function(value, element) {
-                var tel = /^1[3456789]\d{9}$/;
-                return tel.test(value)
-            }, "请正确填写您的手机号");
-
-        jQuery.validator.addMethod("email",
-            function(value, element) {
-                var tel = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
-                return tel.test(value)
-            }, "请正确填写您的邮箱编号");
-
-        $(function() {
-            $("#fm").validate({
-                rules:{
-                    userName:{
-                        required:true
-                    },
-                    phone:{
-                        required:true,
-                        digits:true,
-                        phone:true
-                    },
-                    userEmail:{
-                        required:true,
-                        email:true
-                    }
-                },
-                messages:{
-                    userName:{
-                        required:"不能为空"
-                    },
-                    phone:{
-                        required:"写手机号",
-                        digits:"只能是数字",
-                        phone:"请正确填写个格式"
-                    },
-                    userEmail:{
-                        required:"写邮箱啊",
-                        email:"请正确填写个格式"
-                    }
-                }
-            })
-        })
-
-        $.validator.setDefaults({
-            submitHandler: function() {
-                $.post("<%=request.getContextPath() %>/user/find",
-                    $("#fm").serialize(),
-                    function(data){
-                        layer.msg(data.data.msg, function(){
-                            if (data.data.id != data.data.id) {
-                                layer.close(data.data.msg);
-                                return;
-                            }
-                            window.location.href = "<%=request.getContextPath()%>/user/toUpdatePwd/"+data.data.id;
-                        });
-                    })
-            }
-        });
-
-        function getSalt(obj){
-            $.post(
-                "<%=request.getContextPath()%>/user/getSalt",
-                {"userName": obj.value},
+        //手机号验证
+        function loginPhone(){
+            var index = layer.load(0,{shade:0.5});
+            $.post("<%=request.getContextPath()%>/user/find",
+                $("#fm").serialize(),
                 function(data){
-                    if (data.code != 200) {
-                        layer.alert(data.msg, {icon: 5});
+                    layer.close(index);
+                    if(data.code != 200){
+                        layer.msg(data.msg, {icon:5,time:2000});
                         return;
                     }
-                    $("#salt").val(data.data);
-                })
+                    layer.msg(data.msg, {icon:6,time:2000},
+                        function(){
+                            window.location.href = "<%=request.getContextPath()%>/user/toUpdatePwd/"+data.data.id;
+                        });
+                });
         }
 
-    </script>
-    <style>
-        .error{
-            color:red;
+        var phoneReg = /(^1[1|2|3|4|5|6|7|8|9]\d{9}$)|(^09\d{8}$)/;//手机号正则
+        var count = 30; //间隔函数，1秒执行
+        var InterValObj1; //timer变量，控制时间
+        var curCount1;//当前剩余秒数
+
+        function getCode(){
+            curCount1 = count;
+            var phone = $.trim($('#phone').val());
+            if (!phoneReg.test(phone)) {
+                layer.msg(" 手机号码格式不正确",{icon:0,time:2000});
+                return false;
+            }
+
+            $.post("<%=request.getContextPath()%>/user/send",
+                $("#fm").serialize(),
+                function(data){
+                    if (data.code != 200) {
+                        layer.msg(data.msg, {icon:5,time:2000});
+                        return;
+                    }
+                    layer.msg(data.msg,{icon:6});
+                });
+
+            //设置button效果，开始计时
+            $("#btnSendCode1").attr("disabled", "true");
+            $("#btnSendCode1").val( + curCount1 + "秒再获取");
+            InterValObj1 = window.setInterval(SetRemainTime1, 1000); //启动计时器，1秒执行一次
+
         }
-    </style>
+
+        function SetRemainTime1() {
+            if (curCount1 == 0) {
+                window.clearInterval(InterValObj1);//停止计时器
+                $("#btnSendCode1").removeAttr("disabled");//启用按钮
+                $("#btnSendCode1").val("重新发送");
+            }
+            else {
+                curCount1--;
+                $("#btnSendCode1").val( + curCount1 + "秒再获取");
+            }
+        }
+    </script>
 </head>
 <body>
 <form id="fm">
-    用户名:<input type = "text" name = "userName" id = "userName" onblur="getSalt(this)"/><br/>
-    手机号:<input type = "text" name = "phone" id = "phone"/><br/>
-    邮箱:<input type = "text" name = "userEmail" id = "userEmail"/><br/>
-    <input type = "submit" />
+    <input type="hidden"  value="0" name="userLogins">
+    手机号:<input type="text" id="phone" name="phone" autocomplete="off" placeholder="请输入已绑定的手机号"><p>
+    验证码:<input type="text" name="code" autocomplete="off" placeholder="短信验证码"><p>
+        <input type="button" id="btnSendCode1" value="获取验证码"  onclick="getCode()"><p>
+        <input type="button" class="loginPhone" value="修改密码" onclick="loginPhone()"><p>
 </form>
 </body>
 </html>
