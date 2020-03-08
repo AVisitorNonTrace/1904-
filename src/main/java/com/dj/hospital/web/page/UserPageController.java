@@ -29,7 +29,8 @@ public class UserPageController {
      *  去展示
      */
     @RequestMapping("toShow")
-    public String toShow() {
+    public String toShow(String types, ModelMap modelMap) {
+        modelMap.put("types",types);
         return "user/show";
     }
 
