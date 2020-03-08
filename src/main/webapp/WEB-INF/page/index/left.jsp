@@ -38,7 +38,7 @@
                         { name: "自身信息管理", font:{'color':'blue'}, url : "<%=request.getContextPath()%>/user/toShow", "target" : "right"},
                         { name: "查看医生", font:{'color':'blue'}, url : "<%=request.getContextPath()%>/user/toShowDoctor", "target" : "right"},
                         { name: "预约信息管理", font:{'color':'blue'}, url : "<%=request.getContextPath()%>/register/toShow", "target" : "right"},
-                        { name: "病史管理", font:{'color':'blue'} ,url : "<%=request.getContextPath()%>/register/toShow", "target" : "right"},
+                        { name: "病史管理", font:{'color':'blue'} ,url : "<%=request.getContextPath()%>/register/toShowHistory", "target" : "right"},
                         </c:if>
                     ]},
             ];

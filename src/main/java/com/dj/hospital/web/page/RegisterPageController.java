@@ -19,5 +19,12 @@ public class RegisterPageController {
     public String toShow() {
         return "register/show";
     }
+    /**
+     *  去展示病史
+     */
+    @RequestMapping("toShowHistory")
+    public String toShowHistory() {
+        return "register/history";
+    }
 
 }

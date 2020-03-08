@@ -37,14 +37,14 @@ public class RegisterController {
     public ResultModel<Object> save(Register register) {
         try {
             QueryWrapper<Register> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("user_id", register.getUserId())
+            queryWrapper.eq("user_id", register.getUserId()).eq("order_status", 1)
                         .eq("is_del", SystemConstant.IS_NOT_DEL);
             List<Register> registerList = registerService.list(queryWrapper);
             QueryWrapper<Register> wrapper = new QueryWrapper<>();
-            wrapper.eq("doctor_id", register.getDoctorId());
+            wrapper.eq("doctor_id", register.getDoctorId()).eq("order_status", 1);
             List<Register> list = registerService.list(wrapper);
             QueryWrapper<Register> registerQueryWrapper = new QueryWrapper<>();
-            registerQueryWrapper.eq("doctor_id", register.getDoctorId())
+            registerQueryWrapper.eq("doctor_id", register.getDoctorId()).eq("order_status", 1)
                     .eq("user_id", register.getUserId()).eq("is_del", SystemConstant.IS_NOT_DEL);
             Register register1 = registerService.getOne(registerQueryWrapper);
             if (register1!= null && register1.getDoctorId().equals(register.getDoctorId())) {
@@ -70,7 +70,7 @@ public class RegisterController {
      * 预约展示
      */
     @PostMapping("list")
-    public ResultModel<Object> list(Register register, Integer pageNo, HttpSession session){
+    public ResultModel<Object> list(Integer orderStatus, Integer pageNo, HttpSession session){
         HashMap<String,Object> map = new HashMap<>();
         try {
             IPage<Register> page = new Page<>(pageNo,SystemConstant.PAGE_SIZE);
@@ -81,6 +81,7 @@ public class RegisterController {
             if (user.getType().equals(SystemConstant.TYPE_SICK)){
                 queryWrapper.eq("user_id",user.getId());
                 queryWrapper.eq("is_del",SystemConstant.IS_NOT_DEL);
+                queryWrapper.eq("order_status", orderStatus);
                 IPage<Register> pageInfo = registerService.page(page,queryWrapper);
                 //返回_总页码
                 map.put("totalNum", pageInfo.getPages());

@@ -27,7 +27,7 @@
     function search() {
         var index = layer.load(0, {shade:0.5});
         $.post("<%=request.getContextPath() %>/register/list",
-            {"orderStatus" : 1, "pageNo" : $("#pageNo").val()},
+            {"orderStatus" : 3, "pageNo" : $("#pageNo").val()},
             function(data){
                 layer.close(index);
                 if (data.code != 200) {
