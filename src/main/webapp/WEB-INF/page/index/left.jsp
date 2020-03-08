@@ -35,8 +35,9 @@
                 { name:"患者管理菜单",font:{'color':'blue'}, open:true,
                     children: [
                         <c:if test="${USER.type == 3}">
+                        { name: "挂号", font:{'color':'blue'}, url : "<%=request.getContextPath()%>/user/toRegister", "target" : "right"},
                         { name: "自身信息管理", font:{'color':'blue'}, url : "<%=request.getContextPath()%>/user/toShow", "target" : "right"},
-                        { name: "预约医生管理", font:{'color':'blue'}, url : "<%=request.getContextPath()%>/user/toShowDoctor", "target" : "right"},
+                        { name: "预约医生管理", font:{'color':'blue'}, url : "<%=request.getContextPath()%>/register/toShow", "target" : "right"},
                         { name: "病史管理", font:{'color':'blue'} ,url : "<%=request.getContextPath()%>/order/toShow", "target" : "right"},
                         </c:if>
                     ]},
