@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/res/zTree_v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
     <script type="text/javascript" src="<%=request.getContextPath()%>/res/js/jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/res/zTree_v3/js/jquery.ztree.all.min.js"></script>
-
     <script type="text/javascript">
         var setting = {	};
 
@@ -31,9 +30,9 @@
     </script>
 </head>
 <body align="center"lay-size="20px">
-    <div id="ztree" class="ztree" align="center">
+<div id="ztree" class="ztree" align="center">
 
-    </div>
+</div>
 </body>
 
 </html>

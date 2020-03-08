@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -54,7 +55,8 @@ public class ShiroConfiguration {
         shiroFilterFactoryBean.setSuccessUrl("/user/toIndex");
         // 设置未授权界面，权限认证失败会访问该 URL
         shiroFilterFactoryBean.setUnauthorizedUrl("/403.jsp");
-        Map<String, String> filters = new HashMap<>();
+        Map<String, String> filters = new LinkedHashMap<>();
+        //Map<String, String> filters = new HashMap<>();
         filters.put("/user/toLogin", "anon"); // anon 表示不需要认证
         filters.put("/user/getSalt", "anon"); // anon 表示不需要认证
         filters.put("/user/login", "anon"); // anon 表示不需要认证
@@ -67,8 +69,9 @@ public class ShiroConfiguration {
         filters.put("/user/toLoginPhone", "anon"); // anon 表示不需要认证
         filters.put("/user/send", "anon"); // anon 表示不需要认证
         filters.put("/user/loginPhoneMessages", "anon"); // anon 表示不需要认证
-        filters.put("/logout", "logout"); // anon 表示不需要认证
-       /* filters.put("/**", "authc"); // authc 表示必须认证才可访问*/
+        filters.put("/logout", "anon"); // anon 表示不需要认证
+        filters.put("/res/**", "anon"); // anon 表示不需要认证
+        filters.put("/**", "authc"); // authc 表示必须认证才可访问
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filters);
         return shiroFilterFactoryBean;
     }

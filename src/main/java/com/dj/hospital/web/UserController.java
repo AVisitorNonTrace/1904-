@@ -3,21 +3,25 @@ package com.dj.hospital.web;
 import com.aliyuncs.exceptions.ClientException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.api.R;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dj.hospital.common.ResultModel;
 import com.dj.hospital.common.SystemConstant;
 import com.dj.hospital.config.JavaEmailUtils;
 import com.dj.hospital.pojo.User;
 import com.dj.hospital.service.UserService;
 import com.dj.hospital.utils.MessageVerifyUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -62,23 +66,13 @@ public class UserController {
             if (StringUtils.isEmpty(userName) || StringUtils.isEmpty(password)) {
                 return new ResultModel<>().error("用户名或密码不能为空");
             }
-            QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-            queryWrapper.or(i -> i.eq("user_name", userName)
-                    .or().eq("phone", userName)
-                    .or().eq("user_email", userName));
-            queryWrapper.eq("password",password);
-            User user = userService.getOne(queryWrapper);
-            if (null == user) {
-                return new ResultModel<>().error("用户名或者密码错误");
-            }
-            //判断邮箱是否激活
-            if (user.getStatus().equals(SystemConstant.STATUS_IS_NOT_ACTIVATE)) {
-                return new ResultModel<>().error("用户未激活,请登录邮箱激活");
-            }
-            session.setAttribute("USER",user);
+            //shiro的登陆方式
+            //得到认证
+            Subject subject = SecurityUtils.getSubject();
+            UsernamePasswordToken token = new UsernamePasswordToken(userName,password);
+            subject.login(token);
             return new ResultModel<>().success("登录成功");
         } catch (Exception e) {
-            e.printStackTrace();
             return new ResultModel<>().error(e.getMessage());
         }
     }
@@ -189,6 +183,89 @@ public class UserController {
             }
             session.setAttribute("USER", user1);
             return new ResultModel<Object>().success("登录成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel<>().error(e.getMessage());
+        }
+    }
+
+    /**
+     * 张慧_用户展示
+     */
+    @PostMapping("list")
+    public ResultModel<Object> list(User user1, Integer pageNo,HttpSession session){
+        HashMap<String,Object> map = new HashMap<>();
+        try {
+            IPage<User> page = new Page<>(pageNo,SystemConstant.PAGE_SIZE);
+            User user = (User) session.getAttribute("USER");
+            //定义_开始页_size
+            QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+            //患者医生只能看到自己
+            if (user.getType().equals(SystemConstant.TYPE_SICK) || user.getType().equals(SystemConstant.TYPE_DOCTOR)){
+                queryWrapper.eq("id",user.getId());
+                IPage<User> pageInfo = userService.page(page,queryWrapper);
+                //返回_总页码
+                map.put("totalNum", pageInfo.getPages());
+                //返回_展示数据
+                map.put("userList", pageInfo.getRecords());
+                return new ResultModel<>().success(map);
+            }
+            if (!StringUtils.isEmpty(user1.getUserName())) {
+                queryWrapper.or(i -> i.like("user_name", user1.getUserName())
+                        .or().like("phone", user1.getUserName())
+                        .or().like("user_email", user1.getUserName()));
+            }
+            if (null != user1.getSex()) {
+                queryWrapper.eq("sex",user1.getSex());
+            }
+            if (!StringUtils.isEmpty(user1.getType())) {
+                queryWrapper.eq("type",user1.getType());
+            }
+            //管理员看到所有
+            queryWrapper.orderByDesc("id").eq("is_del",SystemConstant.IS_NOT_DEL);
+            IPage<User> pageInfo = userService.page(page,queryWrapper);
+            //返回_总页码
+            map.put("totalNum", pageInfo.getPages());
+            //返回_展示数据
+            map.put("userList", pageInfo.getRecords());
+            return new ResultModel<>().success(map);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel<>().error(e.getMessage());
+        }
+    }
+
+    /**
+     * 张慧_用户删除
+     */
+    @DeleteMapping
+    public ResultModel<Object> del(Integer id,Integer isDel){
+        try {
+            UpdateWrapper<User> userUpdateWrapper = new UpdateWrapper<>();
+            userUpdateWrapper.set("is_del",isDel).eq("id",id);
+            userService.update(userUpdateWrapper);
+            return new ResultModel<>().success(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel<>().error(e.getMessage());
+        }
+    }
+
+    /**
+     * 张慧_用户修改
+     */
+    @PutMapping
+    public ResultModel<Object> updateUser(User user){
+        try {
+            UpdateWrapper<User> userUpdateWrapper = new UpdateWrapper<>();
+            userUpdateWrapper.set("user_name",user.getUserName()).set("user_email",user.getUserEmail())
+                    .set("phone",user.getPhone()).set("password",user.getPassword())
+                    .set("sex",user.getSex()).set("age",user.getAge())
+                    .set("type",user.getType())
+                    .eq("id",user.getId());
+            userService.update(userUpdateWrapper);
+            return new ResultModel<>().success(true);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResultModel<>().error(e.getMessage());

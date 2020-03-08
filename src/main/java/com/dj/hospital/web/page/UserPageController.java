@@ -92,4 +92,16 @@ public class UserPageController {
         modelAndView.addObject("salt",salt);
         return modelAndView;
     }
+    /**
+     *  张慧_去修改
+     */
+    @RequestMapping("toUpdate/{id}")
+    public String toUpdate(@PathVariable Integer id,ModelMap map) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id",id);
+        User user = userService.getOne(queryWrapper);
+        map.put("user",user);
+        return "user/update";
+    }
+
 }
