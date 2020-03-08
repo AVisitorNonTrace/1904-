@@ -10,45 +10,40 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>/res/js/jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/res/zTree_v3/js/jquery.ztree.all.min.js"></script>
 
-        <style type="text/css">
-
-                              .goto {
-
-                                  display: block;
-                                  width: 120px;
-                                  height: 26px;
-                                  border: 1px solid #CCC;
-                                  background: #9c9d9e;
-                                  margin-top: 20px;
-
-                              }
-        .goto a {
-
-            font-size: 17px;
-            padding: 2px 6px;
-            display: block;
-            color: #ffffff;
-            text-decoration:none;
-        }
-    </style>
 </head>
-<body align="center"lay-size="20px">
-    <center>
-        <c:if test="${user.status==2}">
-        <div class="goto"><a href="<%=request.getContextPath()%>/user/toShow" target="right">学生信息</a></div><br><br>
-            <div class="goto"><a href="<%=request.getContextPath()%>/sub/toShow" target="right">选修课程管理</a></div><br><br>
-        </c:if>
-            <c:if test="${user.status==3}">
-        <div class="goto"><a href="<%=request.getContextPath()%>/user/toShow" target="right">班主任信息</a></div><br><br>
-    </c:if>
-        <c:if test="${user.status==1}">
-            <div class="goto"><a href="<%=request.getContextPath()%>/user/toStudentShow" target="right">个人信息</a></div><br><br>
-            <div class="goto"><a href="<%=request.getContextPath()%>/user/toAddImg" target="right">上传照片</a></div><br><br>
-            <div class="goto"><a href="<%=request.getContextPath()%>/sub/toShow" target="right">选修课程</a></div><br><br>
-            <div class="goto"><a href="<%=request.getContextPath()%>/user/toStudentShow" target="right">身份证信息上传</a></div><br><br>
-        </c:if>
+<SCRIPT type="text/javascript">
+    <!--
+    var setting = {
+        view: {
+            fontCss: getFont,
+            nameIsHTML: true
+        }
+    };
+    var zNodes =[
+        { name:"系统管理", isParent:true, font:{'color':'blue', url:"http://www.treejs.cn/", target:"_blank"},
+            children: [
+                { name:"医生管理"},
+                { name:"病患管理"},
+                { name:"药品管理"},
+                { name:"疾病管理"},
+            ]},
+        { name:"预约管理", isParent:true, font:{'color':'blue'}},
+        { name:"病史管理", isParent:true, font:{'color':'blue'}},
+        { name:"管理员管理", isParent:true, font:{'color':'blue'}}
 
-    </center>
+    ];
+    function getFont(treeId, node) {
+        return node.font ? node.font : {};
+    }
+
+
+    $(document).ready(function(){
+        $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+    });
+    //-->
+</SCRIPT>
+<body align="center"lay-size="20px">
+<div id="treeDemo" class="ztree">
 </body>
 <script>
 
