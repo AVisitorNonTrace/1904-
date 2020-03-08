@@ -1,6 +1,8 @@
 package com.dj.hospital.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.dj.hospital.common.SystemConstant;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -41,6 +43,7 @@ public class User extends BasePojo{
      * 1管理员2医生3患者
      */
     private String type;
+
     @TableField(exist = false)
     private String typeShow;
 
