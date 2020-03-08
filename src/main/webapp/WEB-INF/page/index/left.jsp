@@ -16,7 +16,7 @@
         var zNodes =[
             { name:"患者管理菜单", open:true,
                 children: [
-                    <c:if test="${USER.type == 3}">
+                    <c:if test="${USER.type == '3'}">
                     { name: "自身信息管理", url : "<%=request.getContextPath()%>/user/toShow", "target" : "right"},
                     { name: "预约医生管理", url : "<%=request.getContextPath()%>/user/toShowDoctor", "target" : "right"},
                     { name: "病史管理", url : "<%=request.getContextPath()%>/order/toShow", "target" : "right"},

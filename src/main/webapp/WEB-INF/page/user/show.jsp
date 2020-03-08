@@ -13,6 +13,13 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>\res\js\jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>\res\jsencrypt\jsencrypt.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>\res\layer-v3.1.1\layer\layer.js"></script>
+
+    <script type="text/javascript" src="<%=request.getContextPath()%>/res/layui-v2.5.5/layui/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/res/zTree_v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+    <script type="text/javascript" src="<%=request.getContextPath()%>/res/zTree_v3/js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/res/zTree_v3/js/jquery.ztree.excheck.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/res/zTree_v3/js/jquery.ztree.exedit.js"></script>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/res/layui-v2.5.5/layui/css/layui.css"  media="all">
 <script type="text/javascript">
 
     var totalNum = 0;
@@ -38,9 +45,7 @@
                 for (var i = 0; i < data.data.userList.length; i++) {
                     var u = data.data.userList[i];
                     html += "<tr>";
-                    if (${USER.type  == '1'}) {
-                        html += "<td><input type='checkbox' name = 'ids' value = '" + data.data.userList[i].id + "'/></td>";
-                    }
+                    html += "<td><input type='checkbox' name = 'ids' value = '" + data.data.userList[i].id + "'/></td>";
                     html += "<td>"+data.data.userList[i].userName+"</td>";
                     html += "<td>"+data.data.userList[i].phone+"</td>";
                     html += "<td>"+data.data.userList[i].userEmail+"</td>";
@@ -54,8 +59,8 @@
                 }
                 $("#tbd").html(html);
                 var pageNo = $("#pageNo").val();
-                var pageHtml = "<input type='button' value='上一页' onclick='page("+(parseInt(pageNo) - 1)+")'>";
-                pageHtml += "<input type='button' value='下一页' onclick='page("+(parseInt(pageNo) + 1)+")')'>";
+                 var pageHtml = "<button type='button' class='layui-btn layui-btn-primary layui-btn-radius' onclick='page("+(parseInt(pageNo) - 1)+")'>上一页</button>";
+                 pageHtml += "<button type='button' class='layui-btn layui-btn-primary layui-btn-radius' onclick='page("+(parseInt(pageNo) + 1)+")')'>下一页</button>";
                 $("#pageInfo").html(pageHtml);
 
 
@@ -118,13 +123,22 @@
                             layer.close(index);
                             return;
                         }
-                        location.href = "<%=request.getContextPath()%>/user/toShow";
+                        window.location.href = "<%=request.getContextPath()%>/user/toShow";
                     });
 
                 })
         }
     }
-
+    function add(){
+        layer.open({
+            type: 2,
+            title: '添加用户',
+            shadeClose: false,
+            shade: 0.8,
+            area: ['380px', '90%'],
+            content: '<%=request.getContextPath()%>/user/toAdd' //iframe的url
+        });
+    }
 
 
 
@@ -133,29 +147,33 @@
 <body>
 
 
-<form id = "fm">
+<form id = "fm" align = "center">
+    <br/>
+    <br/>
     <input type="hidden" name="_method" value="get"/>
     <input type="hidden" value="1" id="pageNo" name="pageNo">
     <c:if test="${USER.type == '1'}">
-        用户名:<input type = "text" name = "userName"/><br/>
+        用户名:<input type = "text" name = "userName"/><br/><br/>
         性别:<input type = "radio" name = "sex" value="1"/>男
-            <input type = "radio" name = "sex" value="2"/>女<br/>
+            <input type = "radio" name = "sex" value="2"/>女<br/><br/>
         身份:
              <input type="radio" name="type" value="1">管理员
             <input type="radio" name="type" value="2">医生
             <input type="radio" name="type" value="3">患者
 
-        <input type = "hidden" name = "isDel" value = "1"/><br/>
-        <input type = "button" value = "搜索" onclick = "find()"/><br/>
-
-        <input type="button" value="删除" onclick="del()"/>
-        <input type="button" value="编辑" onclick="toUpdate()"/>
+        <input type = "hidden" name = "isDel" value = "1"/><br/><br/>
+    <div class="layui-btn-group">
+        <button type = "button" class="layui-btn layui-btn-normal" onclick = "find()"/>搜索</div>
+           <button type="button"  class="layui-btn layui-btn-normal" onclick="add()"/>增加</button>
+        <button type="button" class="layui-btn layui-btn-normal" onclick="del()"/>删除</button>
+    </div>
     </c:if>
-    <table border="1px">
+    <div class="layui-btn-group">
+            <button type="button" class="layui-btn layui-btn-normal" onclick="toUpdate()"/>编辑</button>
+    </div>
+    <table class="layui-table"  cellpadding="10px">
         <tr>
-        <c:if test="${USER.type == '1'}">
-                <td>用户id</td>
-        </c:if>
+                <td></td>
                 <td>用户名</td>
                 <td>手机号</td>
                 <td>邮箱</td>
@@ -175,11 +193,11 @@
     </table>
 
 </form>
-<div id="pageInfo">
+<form align = "center">
+    <div id="pageInfo"  class="layui-btn-group">
 
-</div>
-
-
+    </div>
+</form>
 
 </body>
 </html>

@@ -63,6 +63,7 @@
         <option value="3" <c:if test="${user.type=='3'}">selected</c:if>>患者</option>
         <option value="2" <c:if test="${user.type=='2'}">selected</c:if>>医生</option>
         <option value="1" <c:if test="${user.type=='1'}">selected</c:if>>管理员</option>
+    </select><br/>
     年龄:<input type = "text" name = "age" value="${user.age}"/><br/>
     <input type="button" value="修改" onclick="update()"/>
 </form>
