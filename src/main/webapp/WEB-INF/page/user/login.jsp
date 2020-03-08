@@ -72,6 +72,17 @@
             window.location.href="<%=request.getContextPath()%>/user/toLoginPhone";
         }
 
+        function toFind(){
+            layer.open({
+                type: 2,
+                title: '找回密码页面',
+                shadeClose: false,
+                shade: 0.8,
+                area: ['380px', '90%'],
+                content: '<%=request.getContextPath()%>/user/toFind' //iframe的url
+            });
+        }
+
       if(window.top.document.URL != document.URL){
           //将窗口路径与加载路径同步
           window.top.location = document.URL;
@@ -94,6 +105,7 @@
     <a href="<%=request.getContextPath()%>/user/toAdd" target="_parent">还没有账户,点击这里,快速注册</a><br/>
     <input type = "button" value="登录" onclick="login()"/>
        <input type = "button" value="手机号快速登录" onclick="loginPhone()"/>
+       <input type = "button" value="找回密码" onclick="toFind()"/>
 </form>
 
 
