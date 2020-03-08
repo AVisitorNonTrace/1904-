@@ -43,6 +43,7 @@ public class User extends BasePojo{
      * 1管理员2医生3患者
      */
     private String type;
+
     @TableField(exist = false)
     private String typeShow;
 
