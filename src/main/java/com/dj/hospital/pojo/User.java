@@ -37,8 +37,6 @@ public class User extends BasePojo{
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date codeTime;
 
-    /* private String subject;*/
-
     /**
      * 1管理员2医生3患者
      */
@@ -48,16 +46,12 @@ public class User extends BasePojo{
     private String typeShow;
 
     public String getTypeShow() {
-        if (null != type && type.equals(SystemConstant.TYPE_DOCTOR)) {
+        if (type.equals(SystemConstant.TYPE_DOCTOR)){
             return "医生";
         }
-        if (null != type && type.equals(SystemConstant.TYPE_SICK)) {
+        if (type.equals(SystemConstant.TYPE_SICK)){
             return "患者";
         }
         return "管理员";
     }
-
-
-
-
 }

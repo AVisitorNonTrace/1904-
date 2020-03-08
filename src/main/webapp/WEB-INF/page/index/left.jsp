@@ -10,20 +10,43 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>/res/js/jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/res/zTree_v3/js/jquery.ztree.all.min.js"></script>
     <script type="text/javascript">
-        var setting = {	};
+        var setting = {
+            view: {
+                fontCss: getFont,
+                nameIsHTML: true
+            }
+        };
+        if (${USER.type =='1'}){
+            var zNodes =[
+                { name:"系统管理", isParent:true, font:{'color':'blue'},
+                    children: [
+                        { name:"人员管理",url : "<%=request.getContextPath()%>/user/toShow?types="+"4", "target" : "right"},
+                       /* { name:"病患管理",url : "<%=request.getContextPath()%>/user/toShow?type="+"3", "target" : "right"},*/
+                        { name:"药品管理",url : "<%=request.getContextPath()%>/drug/toShow", "target" : "right"},
+                        { name:"疾病管理",url : "<%=request.getContextPath()%>/user/toShow", "target" : "right"},
+                    ]},
+                { name:"预约管理", isParent:true, font:{'color':'blue'},url : "<%=request.getContextPath()%>/user/toShow", "target" : "right"},
+                { name:"病史管理", isParent:true, font:{'color':'blue'},url : "<%=request.getContextPath()%>/user/toShow", "target" : "right"},
+                { name:"管理员管理", isParent:true, font:{'color':'blue'},url : "<%=request.getContextPath()%>/user/toShow?types="+"1", "target" : "right"}
 
+            ];
+        }else if (${USER.type =='3'}){
+            var zNodes =[
+                { name:"患者管理菜单",font:{'color':'blue'}, open:true,
+                    children: [
+                        <c:if test="${USER.type == '3'}">
+                        { name: "挂号", font:{'color':'blue'}, url : "<%=request.getContextPath()%>/user/toRegister", "target" : "right"},
+                        { name: "自身信息管理", font:{'color':'blue'}, url : "<%=request.getContextPath()%>/user/toShow", "target" : "right"},
+                        { name: "预约医生管理", font:{'color':'blue'}, url : "<%=request.getContextPath()%>/register/toShow", "target" : "right"},
+                        { name: "病史管理", font:{'color':'blue'} ,url : "<%=request.getContextPath()%>/order/toShow", "target" : "right"},
+                        </c:if>
+                    ]},
+            ];
+        }
 
-        var zNodes =[
-            { name:"患者管理菜单", open:true,
-                children: [
-                    <c:if test="${USER.type == '3'}">
-                    { name: "自身信息管理", url : "<%=request.getContextPath()%>/user/toShow", "target" : "right"},
-                    { name: "预约医生管理", url : "<%=request.getContextPath()%>/user/toShowDoctor", "target" : "right"},
-                    { name: "病史管理", url : "<%=request.getContextPath()%>/order/toShow", "target" : "right"},
-                    </c:if>
-                ]},
-        ];
-
+        function getFont(treeId, node) {
+            return node.font ? node.font : {};
+        }
         $(document).ready(function(){
             $.fn.zTree.init($("#ztree"), setting, zNodes);
         });

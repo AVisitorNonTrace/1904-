@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script type="text/javascript" src="<%=request.getContextPath()%>/res/js/jquery-1.12.4.min.js"></script>
 	<script type="text/javascript">
 		function quit() {
@@ -16,7 +17,7 @@
 
 <body >
 
-		<h1 align="center">欢迎${USER.userName}来到点金挂号系统</h1>
+<h1 align="center">欢迎<c:if test="${USER.type==1}"><font color="red">管理员</font></c:if><c:if test="${USER.type==2}"><font color="red">医生</font></c:if><c:if test="${USER.type==3}"><font color="red">用户</font></c:if>${USER.userName}来到点金挂号系统</h1>
 		<input type = "button" value = "退出" onclick="quit()"/><br>
 		<div id="datetime" align="right" style="color:black">
 			<script>

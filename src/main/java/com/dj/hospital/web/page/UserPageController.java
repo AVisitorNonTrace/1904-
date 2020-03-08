@@ -2,15 +2,19 @@ package com.dj.hospital.web.page;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.dj.hospital.mapper.UserMapper;
 import com.dj.hospital.pojo.User;
 import com.dj.hospital.service.UserService;
 import com.dj.hospital.utils.PasswordSecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/user/")
@@ -18,6 +22,8 @@ public class UserPageController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserMapper userMapper;
 
     /**
      * 去登录
@@ -29,7 +35,8 @@ public class UserPageController {
      *  去展示
      */
     @RequestMapping("toShow")
-    public String toShow() {
+    public String toShow(String types, ModelMap modelMap) {
+        modelMap.put("types",types);
         return "user/show";
     }
 
@@ -37,9 +44,10 @@ public class UserPageController {
      *  去注册
      */
     @RequestMapping("toAdd")
-    public String toAdd(ModelMap model) throws Exception {
+    public String toAdd(String types, ModelMap model) throws Exception {
         String salt = PasswordSecurityUtil.generateSalt();
         model.put("salt",salt);
+        model.put("types",types);
         return "user/add";
     }
 
@@ -95,13 +103,30 @@ public class UserPageController {
     /**
      *  张慧_去修改
      */
-    @RequestMapping("toUpdate/{id}")
-    public String toUpdate(@PathVariable Integer id,ModelMap map) {
+    @RequestMapping("toUpdate")
+    public String toUpdate(Integer id,String types, ModelMap map) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id",id);
         User user = userService.getOne(queryWrapper);
         map.put("user",user);
+        map.put("types",types);
         return "user/update";
     }
+    /**
+     * 首页展示
+     */
+    @RequestMapping("toIndex")
+    public String toIndex(){ return "user/index"; }
 
+    /**
+     * 去挂号
+     */
+    @RequestMapping("toRegister")
+    public String toRegister(Model model){
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("type",2);
+        List<User> doctorlist = userMapper.selectList(queryWrapper);
+        model.addAttribute("doctorlist",doctorlist);
+        return "user/register";
+    }
 }

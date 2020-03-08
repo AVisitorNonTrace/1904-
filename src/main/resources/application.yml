@@ -18,11 +18,10 @@ spring:
     view:
       prefix: /WEB-INF/page/ # \u9875\u9762\u524D\u7F00
       suffix: .jsp # \u9875\u9762\u540E\u7F00
-    #static-path-pattern: /res/**
+    #  static-path-pattern: /**
     hiddenmethod:
       filter:
         enabled: true
-
 
 # Mybatis-Plus \u914D\u7F6E
 mybatis-plus:
@@ -31,4 +30,3 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # \u6253\u65E5\u5FD7
-

@@ -193,14 +193,14 @@ public class UserController {
      * 张慧_用户展示
      */
     @PostMapping("list")
-    public ResultModel<Object> list(User user1, Integer pageNo,HttpSession session){
+    public ResultModel<Object> list(User user1, String types, Integer pageNo,HttpSession session){
         HashMap<String,Object> map = new HashMap<>();
         try {
             IPage<User> page = new Page<>(pageNo,SystemConstant.PAGE_SIZE);
             User user = (User) session.getAttribute("USER");
             //定义_开始页_size
             QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-            //患者医生只能看到自己
+            //患者/医生只能看到自己
             if (user.getType().equals(SystemConstant.TYPE_SICK) || user.getType().equals(SystemConstant.TYPE_DOCTOR)){
                 queryWrapper.eq("id",user.getId());
                 IPage<User> pageInfo = userService.page(page,queryWrapper);
@@ -210,6 +210,7 @@ public class UserController {
                 map.put("userList", pageInfo.getRecords());
                 return new ResultModel<>().success(map);
             }
+
             if (!StringUtils.isEmpty(user1.getUserName())) {
                 queryWrapper.or(i -> i.like("user_name", user1.getUserName())
                         .or().like("phone", user1.getUserName())
@@ -221,13 +222,35 @@ public class UserController {
             if (!StringUtils.isEmpty(user1.getType())) {
                 queryWrapper.eq("type",user1.getType());
             }
+            //管理员看医生和患者__人员管理
+            if (types.equals(SystemConstant.TYPE_DOCTOR_SICK)){
+                queryWrapper.ne("type",SystemConstant.TYPE_ADMIN);
+                queryWrapper.orderByDesc("id").eq("is_del",SystemConstant.IS_NOT_DEL);
+                IPage<User> pageInfo = userService.page(page,queryWrapper);
+                //返回_总页码
+                map.put("totalNum", pageInfo.getPages());
+                //返回_展示数据
+                map.put("userList", pageInfo.getRecords());
+                return new ResultModel<>().success(map);
+            }
+            //管理员看自己__管理员管理
+            if (types.equals(SystemConstant.TYPE_ADMIN)){
+                queryWrapper.eq("type",SystemConstant.TYPE_ADMIN);
+                queryWrapper.orderByDesc("id").eq("is_del",SystemConstant.IS_NOT_DEL);
+                IPage<User> pageInfo = userService.page(page,queryWrapper);
+                //返回_总页码
+                map.put("totalNum", pageInfo.getPages());
+                //返回_展示数据
+                map.put("userList", pageInfo.getRecords());
+                return new ResultModel<>().success(map);
+            }
             //管理员看到所有
-            queryWrapper.orderByDesc("id").eq("is_del",SystemConstant.IS_NOT_DEL);
-            IPage<User> pageInfo = userService.page(page,queryWrapper);
+            //queryWrapper.orderByDesc("id").eq("is_del",SystemConstant.IS_NOT_DEL);
+            //IPage<User> pageInfo = userService.page(page,queryWrapper);
             //返回_总页码
-            map.put("totalNum", pageInfo.getPages());
+            //map.put("totalNum", pageInfo.getPages());
             //返回_展示数据
-            map.put("userList", pageInfo.getRecords());
+            //map.put("userList", pageInfo.getRecords());
             return new ResultModel<>().success(map);
 
         } catch (Exception e) {

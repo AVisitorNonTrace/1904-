@@ -37,5 +37,15 @@ public interface SystemConstant {
      */
     String TYPE_DOCTOR = "2";
 
+    /**
+     * 患者_医生
+     */
+    String TYPE_DOCTOR_SICK = "4";
+
+    /**
+     * 管理员
+     */
+    String TYPE_ADMIN = "1";
+
 
 }
