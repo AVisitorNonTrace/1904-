@@ -103,7 +103,7 @@
         } else {
             var id = chkValue.val();
             var index = layer.load(0, {shade:0.5});
-            $.post("<%=request.getContextPath()%>/user/",
+            $.post("<%=request.getContextPath()%>/drug/",
                 {"id" : id, "isDel" : 0, "_method" : "delete"},
                 function(data){
 
@@ -112,15 +112,44 @@
                             layer.close(index);
                             return;
                         }
-                        location.href = "<%=request.getContextPath()%>/user/toShow";
+                        location.href = "<%=request.getContextPath()%>/drug/toShow";
                     });
 
                 })
         }
     }
 
+    //增加药品
+    function add(){
+        layer.open({
+            type: 2,
+            title: '增加药品',
+            shadeClose: false,
+            shade: 0.8,
+            area: ['380px', '90%'],
+            content: '<%=request.getContextPath()%>/drug/toAdd' //iframe的url
+        });
+    }
 
-
+    //修改药品
+    function update() {
+        var chkValue = $('input[name="ids"]:checked');
+        if (chkValue.length == 0) {
+            layer.msg('请选择');
+        } else if (chkValue.length > 1) {
+            layer.msg('只能选择一个');
+        } else {
+            var id = chkValue.val();
+            layer.open({
+                type: 2,
+                title: '增加药品',
+                shadeClose: false,
+                shade: 0.8,
+                area: ['380px', '90%'],
+                content: '<%=request.getContextPath()%>/drug/toUpdate/'+id,
+            });
+        }
+    }
 
 </script>
 </head>
@@ -136,6 +165,7 @@
     <center>
         <div class="layui-btn-group">
                 <button type="button" class="layui-btn layui-btn-normal" onclick="add()">新增</button>
+                <button type="button" class="layui-btn layui-btn-normal" onclick="update()">修改</button>
                 <button type="button" class="layui-btn layui-btn-normal" onclick="del()">删除</button>
         </div>
     </center>
