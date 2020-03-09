@@ -45,10 +45,22 @@ public class User extends BasePojo{
     @TableField(exist = false)
     private String typeShow;
 
+    @TableField(exist = false)
+    private String typeDoctorWorkShow;
+
     private String doctorWork;
 
 
     public String getTypeShow() {
+        if (type.equals(SystemConstant.TYPE_DOCTOR)){
+            return "医生";
+        }
+        if (type.equals(SystemConstant.TYPE_SICK)){
+            return "患者";
+        }
+        return "管理员";
+    }
+    public String getTypeDoctorWorkShow() {
         if (type.equals(SystemConstant.TYPE_DOCTOR)){
             return "医生"+"("+doctorWork+")";
         }
