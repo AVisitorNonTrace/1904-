@@ -1,6 +1,8 @@
 package com.dj.hospital.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.dj.hospital.common.SystemConstant;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -14,6 +16,19 @@ public class Register extends BasePojo{
      * 预约状态1预约成功2预约中3预约结束
      */
     private Integer orderStatus;
+
+    @TableField(exist = false)
+    private String orderStatusShow;
+
+    public String getOrderStatusShow() {
+        if (orderStatus.equals(SystemConstant.TYPE_DOCTOR)){
+            return "预约中";
+        }
+        if (orderStatus.equals(SystemConstant.TYPE_SICK)){
+            return "预约结束";
+        }
+        return "预约成功";
+    }
 
     private Integer doctorId;
 

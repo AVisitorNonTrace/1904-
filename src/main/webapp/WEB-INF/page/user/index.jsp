@@ -39,6 +39,10 @@
 			});
 		}
 
+		if(window.top.document.URL != document.URL){
+			//将窗口路径与加载路径同步
+			window.top.location = document.URL;
+		}
 
 	</script>
 </head>
@@ -47,9 +51,8 @@
 	<div class="wrap">
 		<p class="call">010-114/116114电话预约</p>
 		<p class="welcome">欢迎来到城市预约挂号统一平台&nbsp;请&nbsp;
-			<input type = "button" value="登录" onclick="toLogin()"/>
-			<input type = "button" value="注册" onclick="toFind()"/>
-			&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;	<a href="#1" onclick="toLogin()" >登录</a>
+			<a href="#1" onclick="toFind()" >注册</a>
 			<a href="#3">帮助中心</a>
 		</p>
 	</div>

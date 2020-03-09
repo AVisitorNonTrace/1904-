@@ -49,7 +49,7 @@
                         if (data.code != 200) {
                             return;
                         }
-                        window.location.href = "<%=request.getContextPath()%>/index/toIndex";
+                        parent.window.location.href = "<%=request.getContextPath()%>/index/toIndex";
                     });
             })
 
@@ -82,11 +82,6 @@
                 content: '<%=request.getContextPath()%>/user/toFind' //iframe的url
             });
         }
-
-      if(window.top.document.URL != document.URL){
-          //将窗口路径与加载路径同步
-          window.top.location = document.URL;
-      }
 
     </script>
     <style>
