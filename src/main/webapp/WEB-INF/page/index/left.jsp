@@ -16,29 +16,37 @@
                 nameIsHTML: true
             }
         };
-        if (${USER.type =='1'}){
+        if (${USER.type}==1){
             var zNodes =[
                 { name:"系统管理", isParent:true, font:{'color':'blue'},
                     children: [
-                        { name:"人员管理",url : "<%=request.getContextPath()%>/user/toShow?types="+"4", "target" : "right"},
-                       /* { name:"病患管理",url : "<%=request.getContextPath()%>/user/toShow?type="+"3", "target" : "right"},*/
+                        { name:"医生管理",url : "<%=request.getContextPath()%>/user/toShow", "target" : "right"},
+                        { name:"病患管理",url : "<%=request.getContextPath()%>/user/toShow", "target" : "right"},
                         { name:"药品管理",url : "<%=request.getContextPath()%>/drug/toShow", "target" : "right"},
                         { name:"疾病管理",url : "<%=request.getContextPath()%>/user/toShow", "target" : "right"},
                     ]},
-                { name:"预约管理", isParent:true, font:{'color':'blue'},url : "<%=request.getContextPath()%>/user/toShow", "target" : "right"},
+                { name:"预约管理", isParent:true, font:{'color':'blue'},url : "<%=request.getContextPath()%>/register/toShow", "target" : "right"},
                 { name:"病史管理", isParent:true, font:{'color':'blue'},url : "<%=request.getContextPath()%>/user/toShow", "target" : "right"},
-                { name:"管理员管理", isParent:true, font:{'color':'blue'},url : "<%=request.getContextPath()%>/user/toShow?types="+"1", "target" : "right"}
+                { name:"管理员管理", isParent:true, font:{'color':'blue'},url : "<%=request.getContextPath()%>/user/toShow", "target" : "right"}
 
             ];
-        }else if (${USER.type =='3'}){
+        }else if (${USER.type}==3){
             var zNodes =[
                 { name:"患者管理菜单",font:{'color':'blue'}, open:true,
                     children: [
-                        <c:if test="${USER.type == '3'}">
+                        <c:if test="${USER.type == 3}">
                         { name: "自身信息管理", font:{'color':'blue'}, url : "<%=request.getContextPath()%>/user/toShow", "target" : "right"},
-                        { name: "查看医生", font:{'color':'blue'}, url : "<%=request.getContextPath()%>/user/toShowDoctor", "target" : "right"},
-                        { name: "预约信息管理", font:{'color':'blue'}, url : "<%=request.getContextPath()%>/register/toShow", "target" : "right"},
-                        { name: "病史管理", font:{'color':'blue'} ,url : "<%=request.getContextPath()%>/register/toShowHistory", "target" : "right"},
+                        { name: "预约医生管理", font:{'color':'blue'}, url : "<%=request.getContextPath()%>/register/toShow", "target" : "right"},
+                        { name: "病史管理", font:{'color':'blue'} ,url : "<%=request.getContextPath()%>/order/toShow", "target" : "right"},
+                        </c:if>
+                    ]},
+            ];
+        }else if (${USER.type}==2){
+            var zNodes =[
+                { name:"医生预约管理菜单",font:{'color':'blue'}, open:true,
+                    children: [
+                        <c:if test="${USER.type == 2}">
+                        { name: "预约管理", font:{'color':'blue'} ,url : "<%=request.getContextPath()%>/register/toShow", "target" : "right"},
                         </c:if>
                     ]},
             ];
