@@ -55,4 +55,11 @@ public class RegisterPageController {
         map.put("register",register);
         return "register/update";
     }
+    /**
+     *  去展示病史
+     */
+    @RequestMapping("toShowHistory")
+    public String toShowHistory() {
+        return "register/history";
+    }
 }
