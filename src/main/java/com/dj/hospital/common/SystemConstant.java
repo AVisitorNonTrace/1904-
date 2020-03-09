@@ -50,10 +50,11 @@ public interface SystemConstant {
     /**
      * 预约结束
      */
-    String ORDER_STATUS_FINISG = "3";
+    Integer ORDER_STATUS_FINISG = 3;
 
     /**
      * 预约中
      */
-    String ORDER_STATUS_IN = "2";
+    Integer ORDER_STATUS_IN = 2;
+
 }
