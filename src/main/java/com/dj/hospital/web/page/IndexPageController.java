@@ -1,6 +1,7 @@
 package com.dj.hospital.web.page;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.dj.hospital.common.SystemConstant;
 import com.dj.hospital.pojo.Register;
 import com.dj.hospital.pojo.User;
 import com.dj.hospital.service.RegisterService;
@@ -33,7 +34,9 @@ public class IndexPageController {
 	public String toRight(HttpSession session, Model model) {
 		User user = (User) session.getAttribute("USER");
 		QueryWrapper<Register> queryWrapper = new QueryWrapper<>();
-		queryWrapper.eq("doctor_id", user.getId());
+		queryWrapper.eq("doctor_id", user.getId())
+		.eq("is_del", SystemConstant.IS_NOT_DEL)
+		.ne("order_status", 3);
 		List<Register> list = registerService.list(queryWrapper);
 		model.addAttribute("size", list.size());
 		return "/index/right";
