@@ -21,10 +21,10 @@ public class Register extends BasePojo{
     private String orderStatusShow;
 
     public String getOrderStatusShow() {
-        if (orderStatus.equals(SystemConstant.TYPE_DOCTOR)){
+        if (orderStatus.equals(SystemConstant.ORDER_STATUS_IN)){
             return "预约中";
         }
-        if (orderStatus.equals(SystemConstant.TYPE_SICK)){
+        if (orderStatus.equals(SystemConstant.ORDER_STATUS_FINISG)){
             return "预约结束";
         }
         return "预约成功";

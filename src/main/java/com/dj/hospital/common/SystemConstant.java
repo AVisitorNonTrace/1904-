@@ -47,5 +47,13 @@ public interface SystemConstant {
      */
     String TYPE_ADMIN = "1";
 
+    /**
+     * 预约结束
+     */
+    String ORDER_STATUS_FINISG = "3";
 
+    /**
+     * 预约中
+     */
+    String ORDER_STATUS_IN = "2";
 }
