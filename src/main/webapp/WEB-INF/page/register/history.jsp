@@ -94,7 +94,7 @@
         }
     }
 
-    function del() {
+    function seeDrug() {
         var chkValue = $('input[name="ids"]:checked');
         if (chkValue.length == 0) {
             layer.msg('请选择');
@@ -102,20 +102,15 @@
             layer.msg('只能选择一个');
         } else {
             var id = chkValue.val();
-            var index = layer.load(0, {shade:0.5});
-            $.post("<%=request.getContextPath()%>/register/",
-                {"id" : id, "isDel" : 0, "_method" : "delete"},
-                function(data){
+            layer.open({
+                type: 2,
+                title: '查看开药信息',
+                shadeClose: true,
+                shade: 0.8,
+                area: ['380px', '90%'],
+                content: '<%=request.getContextPath()%>/register/toSeeDrug/'+id //iframe的url
+            });
 
-                    layer.msg(data.msg, function(){
-                        if (data.code != 200) {
-                            layer.close(index);
-                            return;
-                        }
-                        location.href = "<%=request.getContextPath()%>/register/toShow";
-                    });
-
-                })
         }
     }
 
@@ -128,11 +123,14 @@
 
 
 <form id = "fm">
+    <br />
+    <br />
+    <br />
     <input type="hidden" name="_method" value="get"/>
     <input type="hidden" value="1" id="pageNo" name="pageNo">
     <center>
         <div class="layui-btn-group">
-                <button type="button" class="layui-btn layui-btn-normal" onclick="del()">取消预约</button>
+                <button type="button" class="layui-btn layui-btn-normal" onclick="seeDrug()">已开药品查看</button>
         </div>
     </center>
     <table border="1px"  class="layui-table"  cellpadding="10px">

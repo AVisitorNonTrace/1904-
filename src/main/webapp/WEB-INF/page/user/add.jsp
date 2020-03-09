@@ -176,6 +176,14 @@
                     })
             }
         });
+
+        function isShow(isShow) {
+            if (isShow.value != '2') {
+                $("#Event").hide();
+            }else{
+                $("#Event").show();
+            }
+        }
     </script>
     <style>
         .error{
@@ -199,15 +207,34 @@
     性别:<input type = "radio" name = "sex" value="1" checked/>男
         <input type = "radio" name = "sex" value="2"/>女<br/>
     <div id="sexError"></div>
-    <select name="type">
-        <c:if test="${types != '1'}">
-            <option value="3">患者</option>
-            <option value="2">医生</option>
+<%--    身份:<c:if test="${types != '1'}">
+          <input type = "radio" name = "type" value="3"/>患者<br/>
+            <input type = "radio" name = "type" value="2" checked/>医生<br/>
         </c:if>
-        <c:if test="${USER.type == '1' &&  types == '1'}">
-            <option value="1">管理员</option>
+    <c:if test="${USER.type == '1' &&  types == '1'}">
+        <input type = "radio" name = "type" value="1" />管理员<br/>
+    </c:if>--%>
+    身份:<select name="type" onclick="isShow(this)">
+            <c:if test="${types != '1'}">
+                <option value="3" >患者</option>
+                <option value="2" selected>医生</option>
+            </c:if>
+            <c:if test="${USER.type == '1' &&  types == '1'}">
+                <option value="1">管理员</option>
+            </c:if>
+        </select>
+    <c:if test="${USER.type == '1' &&  types != '1'}">
+    <div id="Event">
+        科室:<select name="doctorWork">
+                 <option value="内科">内科</option>
+                <option value="外科">外科</option>
+                <option value="妇科">妇科</option>
+                <option value="儿科">儿科</option>
+                 <option value="中医科">中医科</option>
+             </select><br><br>
         </c:if>
-    </select><br/>
+    </div>
+    <br/>
     <input type = "submit"/>
     <c:if test="${USER.type != '1'}">
      <a href="<%=request.getContextPath()%>/user/toLogin">不注册了,返回登录页面</a>

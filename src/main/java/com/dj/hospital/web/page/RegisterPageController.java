@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -61,5 +62,18 @@ public class RegisterPageController {
     @RequestMapping("toShowHistory")
     public String toShowHistory() {
         return "register/history";
+    }
+
+    /**
+     *  去展示_已开药品
+     */
+    @RequestMapping("toSeeDrug/{id}")
+    public String toSeeDrug(@PathVariable Integer id,ModelMap modelMap) {
+        //查询此id开的药品
+        QueryWrapper<Register> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id",id);
+        Register register = registerService.getOne(queryWrapper);
+        modelMap.put("register",register);
+        return "register/see_open_drug_show";
     }
 }
