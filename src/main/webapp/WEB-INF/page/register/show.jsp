@@ -43,7 +43,7 @@
                     html += "<td><input type='checkbox' name = 'ids' value = '" + u.id + "'/></td>";
                     html += "<td>"+u.illnessName+"</td>";
                     html += "<td>"+u.remarks+"</td>";
-                    html += "<td>"+u.orderStatus+"</td>";
+                    html += "<td>"+u.orderStatusShow+"</td>";
                     html += "<td>"+u.createTime+"</td>";
                     html += "</tr>";
                 }

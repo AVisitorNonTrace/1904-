@@ -44,6 +44,7 @@
                 { name:"医生预约管理菜单",font:{'color':'blue'}, open:true,
                     children: [
                         <c:if test="${USER.type == 2}">
+                        { name: "自身信息管理", font:{'color':'blue'}, url : "<%=request.getContextPath()%>/user/toShow", "target" : "right"},
                         { name: "预约管理", font:{'color':'blue'} ,url : "<%=request.getContextPath()%>/register/toShow", "target" : "right"},
                         </c:if>
                     ]},
