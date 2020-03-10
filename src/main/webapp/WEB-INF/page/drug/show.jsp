@@ -75,24 +75,6 @@
         $("#pageNo").val(1);
         search();
     }
-    function toUpdate() {
-        var chkValue = $('input[name="ids"]:checked');
-        if (chkValue.length == 0) {
-            layer.msg('请选择');
-        } else if (chkValue.length > 1) {
-            layer.msg('只能选择一个');
-        } else {
-            var id = chkValue.val();
-            layer.open({
-                type: 2,
-                title: '修改页',
-                shadeClose: true,
-                shade: 0.8,
-                area: ['380px', '90%'],
-                content: '<%=request.getContextPath()%>/user/toUpdate/'+id //iframe的url
-            });
-        }
-    }
 
     function del() {
         var chkValue = $('input[name="ids"]:checked');

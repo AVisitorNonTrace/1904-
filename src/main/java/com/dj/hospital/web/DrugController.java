@@ -8,6 +8,7 @@ import com.dj.hospital.common.SystemConstant;
 import com.dj.hospital.pojo.Drug;
 import com.dj.hospital.service.DrugService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,9 @@ public class DrugController {
             IPage<Drug> page = new Page<>(pageNo,SystemConstant.PAGE_SIZE);
             //定义_开始页_size
             QueryWrapper<Drug> queryWrapper = new QueryWrapper<>();
+            if (!StringUtils.isEmpty(drug.getDrugName())) {
+                queryWrapper.like("drug_name", drug.getDrugName());
+            }
             queryWrapper.eq("is_del",SystemConstant.IS_NOT_DEL);
                 IPage<Drug> pageInfo = drugService.page(page,queryWrapper);
                 //返回_总页码
