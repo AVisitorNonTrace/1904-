@@ -2,8 +2,10 @@ package com.dj.hospital.web.page;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.dj.hospital.common.SystemConstant;
+import com.dj.hospital.pojo.Drug;
 import com.dj.hospital.pojo.Register;
 import com.dj.hospital.pojo.User;
+import com.dj.hospital.service.DrugService;
 import com.dj.hospital.service.RegisterService;
 import com.dj.hospital.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class RegisterPageController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private DrugService drugService;
 
     /**
      *  去展示病历单
@@ -62,4 +67,21 @@ public class RegisterPageController {
     public String toShowHistory() {
         return "register/history";
     }
+
+    /**
+     *  去开药
+     */
+    @RequestMapping("toAddDrug/{id}")
+    public String toAddDrug(@PathVariable Integer id, Model model) {
+        QueryWrapper<Register> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id",id);
+        Register register = registerService.getOne(queryWrapper);
+        QueryWrapper<Drug> queryWrapper2 = new QueryWrapper<>();
+        queryWrapper2.eq("is_del", SystemConstant.IS_NOT_DEL);
+        List<Drug> drugList = drugService.list(queryWrapper2);
+        model.addAttribute("drugList", drugList);
+        model.addAttribute("register",register);
+        return "register/add_drug";
+    }
+
 }

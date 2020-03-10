@@ -147,4 +147,37 @@ public class RegisterController {
         }
     }
 
+    /**
+     * 添加药物
+     */
+    @PutMapping
+    public ResultModel<Object> update(Register register){
+        try {
+            UpdateWrapper<Register> registerUpdateWrapper = new UpdateWrapper<>();
+            registerUpdateWrapper.set("order_status", register.getOrderStatus()).set("drug_name", register.getDrugName())
+                    .eq("id", register.getId());
+            registerService.update(registerUpdateWrapper);
+            return new ResultModel<>().success("处理完毕");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel<>().error(e.getMessage());
+        }
+    }
+
+    /**
+     * 就医
+     */
+    @RequestMapping("updateDrug")
+    public ResultModel<Object> updateDrug(Register register){
+        try {
+            UpdateWrapper<Register> registerUpdateWrapper = new UpdateWrapper<>();
+            registerUpdateWrapper.set("order_status",register.getOrderStatus()).eq("id",register.getId());
+            registerService.update(registerUpdateWrapper);
+            return new ResultModel<>().success("处理完毕");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultModel<>().error(e.getMessage());
+        }
+    }
+
 }
