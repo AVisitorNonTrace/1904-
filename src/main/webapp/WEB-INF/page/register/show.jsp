@@ -56,13 +56,16 @@
                             }
                             html += "</td>"
                             html += "<td>"+u.createTime+"</td>";
-                            if (u.orderStatus == 1) {
+                            if (${USER.type}==2)
+                            {
+                                if (u.orderStatus == 1) {
                                 html += "<td>"+"<input type='button' value='开药' onclick='add("+u.id+")'/>"+"</td>" ;
 
                             }
                             if (u.orderStatus == 2) {
                                 html += "<td>"+"<input type='button' value='就医(接收预约)' onclick='updatedrug("+u.id+")'/>"+"</td>" ;
 
+                            }
                             }
                             html += "</tr>";
                         }
@@ -180,7 +183,10 @@
                 <td>备注</td>
                 <td>预约状态</td>
                 <td>预约时间</td>
+            <c:if test="${USER.type==2}">
                 <td></td>
+            </c:if>
+
         </tr>
 
         <tbody id = "tbd">
