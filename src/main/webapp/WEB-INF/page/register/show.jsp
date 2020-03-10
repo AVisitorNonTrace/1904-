@@ -180,6 +180,7 @@
                 <td>备注</td>
                 <td>预约状态</td>
                 <td>预约时间</td>
+                <td></td>
         </tr>
 
         <tbody id = "tbd">
