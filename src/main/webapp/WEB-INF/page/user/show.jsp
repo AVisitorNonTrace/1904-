@@ -52,7 +52,7 @@
                     html += "<td>"+data.data.userList[i].password+"</td>";
                     html += data.data.userList[i].sex == "1" ? "<td>男</td>" : "<td>女</td>";
                     html += "<td>"+data.data.userList[i].age+"</td>";
-                    html += "<td>"+data.data.userList[i].typeShow+"</td>";
+                    html += "<td>"+data.data.userList[i].typeDoctorWorkShow+"</td>";
                     html += data.data.userList[i].status == "1" ? "<td>已激活</td>" : "<td>未激活</td>";
                     html += "<td>"+data.data.userList[i].createTime+"</td>";
                     html += "</tr>";

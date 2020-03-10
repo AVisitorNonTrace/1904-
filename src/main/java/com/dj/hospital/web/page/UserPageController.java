@@ -72,7 +72,7 @@ public class UserPageController {
      */
     @RequestMapping("quit")
     public String quit() {
-        return "/user/login";
+        return "/user/index";
     }
 
     /**

@@ -51,7 +51,7 @@
     <input type = "hidden" name = "userId" value = "${USER.id}"/>
     <input type = "hidden" name = "doctorId" value = "${user.id}"/>
     <input type = "hidden" name = "orderStatus" value = "1"/>
-    <input type="button" value="预约" onclick="register()"/>
+    <input type="button" value="预约" class="layui-btn layui-btn-primary" onclick="register()"/>
 
     </form>
 

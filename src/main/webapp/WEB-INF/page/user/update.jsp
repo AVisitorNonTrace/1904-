@@ -51,6 +51,14 @@
 
             })
 
+        function isShow(isShow) {
+            if (isShow.value != '2') {
+                $("#Event").hide();
+            }else{
+                $("#Event").show();
+            }
+        }
+
 }
 
 </script>
@@ -73,11 +81,11 @@
         身份:<input type = "radio" name = "type" value="${user.type}" checked/>${user.typeShow}<br/>
     </c:if>
     <c:if test="${USER.type == '1'}">
-    身份:<select name="type">
-        <option value="3" <c:if test="${user.type=='3'}">selected</c:if>>患者</option>
-        <option value="2" <c:if test="${user.type=='2'}">selected</c:if>>医生</option>
-        <option value="1" <c:if test="${user.type=='1'}">selected</c:if>>管理员</option>
-    </select><br/>
+    身份:<select name="type" onclick="isShow(this)">
+            <option value="3" <c:if test="${user.type=='3'}">selected</c:if>>患者</option>
+            <option value="2" <c:if test="${user.type=='2'}">selected</c:if>>医生</option>
+            <option value="1" <c:if test="${user.type=='1'}">selected</c:if>>管理员</option>
+        </select><br/>
     </c:if>
     年龄:<input type = "text" name = "age" value="${user.age}"/><br/>
     <input type="button" value="修改" onclick="update()"/>
