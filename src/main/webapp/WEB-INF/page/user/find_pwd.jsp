@@ -6,12 +6,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-<title>Title</title>
-<script type="text/javascript" src="<%=request.getContextPath()%>/res/js/jquery-1.12.4.min.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/res/layer-v3.1.1/layer/layer.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/res/layui-v2.5.5/layui/css/layui.css" media="all">
-<script src="<%=request.getContextPath()%>/res/validate/jquery.validate.js"></script>
-<script src="https://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
+    <title>Title</title>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/res/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/res/layer-v3.1.1/layer/layer.js"></script>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/res/layui-v2.5.5/layui/css/layui.css" media="all">
+    <script src="<%=request.getContextPath()%>/res/validate/jquery.validate.js"></script>
+    <script src="https://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
 
     <script type="text/javascript">
 
@@ -79,10 +79,20 @@
 <body>
 <form id="fm">
     <input type="hidden"  value="0" name="userLogins">
-    手机号:<input type="text" id="phone" name="phone" autocomplete="off" placeholder="请输入已绑定的手机号"><p>
-    验证码:<input type="text" name="code" autocomplete="off" placeholder="短信验证码"><p>
-        <input type="button" id="btnSendCode1" value="获取验证码"  onclick="getCode()"><p>
-        <input type="button" class="loginPhone" value="修改密码" onclick="loginPhone()"><p>
+
+    <label class="layui-form-label">手机号</label>
+    <div class="layui-input-inline">
+        <input type="text" name="phone" id="phone"  lay-verify="required" placeholder="请输入已绑定的手机号" autocomplete="off" class="layui-input">
+    </div>
+
+    <label class="layui-form-label">验证码</label>
+    <div class="layui-input-inline">
+        <input type="text" name="code" id="code"  lay-verify="required" placeholder="短信验证码" autocomplete="off" class="layui-input">
+    </div>
+    <center>
+        <input type="button" id="btnSendCode1" value="获取验证码"  onclick="getCode()" class="layui-btn layui-btn-normal" >
+        <input type="button" value="修改密码" onclick="loginPhone()" class="layui-btn layui-btn-normal" ><p>
+    </center>
 </form>
 </body>
 </html>

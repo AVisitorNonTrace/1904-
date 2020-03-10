@@ -10,6 +10,8 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>\res\layer-v3.1.1\layer\layer.js"></script>
     <script src="<%=request.getContextPath()%>\res\validate\jquery.validate.js"></script>
     <script src="https://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/res/layui-v2.5.5/layui/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/res/layui-v2.5.5/layui/css/layui.css"  media="all">
     <script type="text/javascript">
 
         $(function() {
@@ -95,12 +97,17 @@
 <form id = "fm">
    <%-- <input type="hidden" name="_method" value="post"/>    --%>
     <input type="hidden" name="salt" id="salt">
-    用户名/手机号/邮箱:<input type = "text" name = "userName" id = "userName" onblur="getSalt(this)" ><br/>
-    密码:<input type = "password" name = "password" id = "password"/><br/>
-    <a href="<%=request.getContextPath()%>/user/toAdd" target="_parent">还没有账户,点击这里,快速注册</a><br/>
-    <input type = "button" value="登录" onclick="login()"/>
-       <input type = "button" value="手机号快速登录" onclick="loginPhone()"/>
-       <input type = "button" value="找回密码" onclick="toFind()"/>
+       <label class="layui-form-label">用户名</label>
+       <div class="layui-input-inline">
+           <input type="text" name="userName" id="userName"  lay-verify="required" placeholder="请输入用戶名/邮箱号/手机号" onblur="getSalt(this)" class="layui-input">
+       </div>
+       <label class="layui-form-label">密码框</label>
+       <div class="layui-input-inline">
+           <input type="password" name="password" id="password"  lay-verify="required" placeholder="请输入密码"  class="layui-input">
+       </div><br>
+       <input type = "button" value="登录" onclick="login()" class="layui-btn layui-btn-normal"/>
+       <input type = "button" value="手机号快速登录" onclick="loginPhone()"class="layui-btn layui-btn-normal"/>
+       <input type = "button" value="找回密码" onclick="toFind()"class="layui-btn layui-btn-normal"/>
 </form>
 
 
