@@ -10,6 +10,9 @@
     <script type="text/javascript" src="<%=request.getContextPath()%>\res\layer-v3.1.1\layer\layer.js"></script>
     <script src="<%=request.getContextPath()%>\res\validate\jquery.validate.js"></script>
     <script src="https://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/res/layui-v2.5.5/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/res/layer-v3.1.1/layer/layer.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/res/layui-v2.5.5/layui/css/layui.css"  media="all">
     <script type="text/javascript">
 
         jQuery.validator.addMethod("phone",
@@ -197,15 +200,38 @@
     <input type="hidden" name="status" value="-1"/>
     <input type="hidden" name="salt" value="${salt}" id="salt">
     <input type="hidden" name="types" value="${types}" id="types"/>
-    用户名:<input type = "text" name = "userName" id = "userName"/><br/>
-    手机号:<input type = "text" name = "phone" id = "phone"/><br/>
-    邮箱:<input type = "text" name = "userEmail" id = "userEmail"/><br/>
-    密码:<input type = "text" name = "password" id = "password"/><br/>
-
-    年龄:<input type = "text" name = "age" id = "age"/><br/>
-
-    性别:<input type = "radio" name = "sex" value="1" checked/>男
-        <input type = "radio" name = "sex" value="2"/>女<br/>
+    用户:
+    <div class="layui-input-inline">
+        <input type="text" name="userName" id="userName"  lay-verify="required" placeholder="请输入用戶名" class="layui-input">
+    </div><br>
+    <%--    用户名:<input type = "text" name = "userName" id = "userName"/><br/>--%>
+    手机:
+    <div class="layui-input-inline">
+        <input type="text" name="phone" id="phone"  lay-verify="required" placeholder="请输入手机号" class="layui-input">
+    </div><br>
+    <%--    手机号:<input type = "text" name = "phone" id = "phone"/><br/>--%>
+    邮箱:
+    <div class="layui-input-inline">
+        <input type="text" name="userEmail" id="userEmail"  lay-verify="required" placeholder="请输入邮箱" class="layui-input">
+    </div><br>
+    <%--    邮箱:<input type = "text" name = "userEmail" id = "userEmail"/><br/>--%>
+    密码:
+    <div class="layui-input-inline">
+        <input type="text" name="password" id="password"  lay-verify="required" placeholder="请输入密码" class="layui-input">
+    </div><br>
+    <%--    密码:<input type = "text" name = "password" id = "password"/><br/>--%>
+    年龄:
+    <div class="layui-input-inline">
+        <input type="text" name="age" id="age"  lay-verify="required" placeholder="请输入年龄" class="layui-input">
+    </div><br>
+    <%--    年龄:<input type = "text" name = "age" id = "age"/><br/>--%>
+    <%--    性别:<input type = "radio" name = "sex" value="1" checked/>男--%>
+    <%--        <input type = "radio" name = "sex" value="2"/>女<br/>--%>
+    <div class="layui-form-item">
+        性别:
+            男<input  type = "radio" title="男" name = "sex" value = "1" checked/>
+            女<input  type = "radio" title="女" name = "sex" value = "2" />
+    </div><br>
     <div id="sexError"></div>
 <%--    身份:<c:if test="${types != '1'}">
           <input type = "radio" name = "type" value="3"/>患者<br/>
@@ -235,7 +261,7 @@
     </div>
     </c:if>
     <br/>
-    <input type = "submit"/>
+    <input type = "submit" class="layui-btn layui-btn-normal"/>
     <c:if test="${USER.type != '1'}">
      <a href="<%=request.getContextPath()%>/user/toLogin">不注册了,返回登录页面</a>
     </c:if>
