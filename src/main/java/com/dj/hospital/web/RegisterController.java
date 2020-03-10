@@ -65,13 +65,13 @@ public class RegisterController {
         try {
             QueryWrapper<Register> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("user_id", register.getUserId())
-                    .eq("is_del", SystemConstant.IS_NOT_DEL);
+                    .eq("is_del", SystemConstant.IS_NOT_DEL).ne("order_status", 3);
             List<Register> registerList = registerService.list(queryWrapper);
             QueryWrapper<Register> wrapper = new QueryWrapper<>();
-            wrapper.eq("doctor_id", register.getDoctorId());
+            wrapper.eq("doctor_id", register.getDoctorId()).ne("order_status", 3);
             List<Register> list = registerService.list(wrapper);
             QueryWrapper<Register> registerQueryWrapper = new QueryWrapper<>();
-            registerQueryWrapper.eq("doctor_id", register.getDoctorId())
+            registerQueryWrapper.eq("doctor_id", register.getDoctorId()).ne("order_status", 3)
                     .eq("user_id", register.getUserId()).eq("is_del", SystemConstant.IS_NOT_DEL);
             Register register1 = registerService.getOne(registerQueryWrapper);
             if (register1!= null && register1.getDoctorId().equals(register.getDoctorId())) {
