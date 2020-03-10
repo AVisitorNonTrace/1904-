@@ -163,7 +163,7 @@
                                 return;
                             }
                             if (${USER.type != '1'}){
-                                window.location.href = "<%=request.getContextPath()%>/user/toLogin";
+                                window.location.href = "<%=request.getContextPath()%>/user/toShow";
                             }
                             if (types == "4"){
                                 parent.window.location.href = "<%=request.getContextPath()%>/user/toShow?types="+"4";
@@ -173,8 +173,7 @@
                                 parent.window.location.href = "<%=request.getContextPath()%>/user/toShow?types="+"1";
                                 return;
                             }
-                            window.location.href = "<%=request.getContextPath()%>/user/toShow";
-
+                            window.location.href = "<%=request.getContextPath()%>/user/toLogin";
                         });
                     })
             }
