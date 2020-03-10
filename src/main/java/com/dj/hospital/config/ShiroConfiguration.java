@@ -50,7 +50,7 @@ public class ShiroConfiguration {
         // 设置securityManager
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         // 设置默认登录的 URL，身份认证失败会访问该 URL
-        shiroFilterFactoryBean.setLoginUrl("/user/toLogin");
+        shiroFilterFactoryBean.setLoginUrl("/user/toIndex");
         // 设置成功之后要跳转的链接
         shiroFilterFactoryBean.setSuccessUrl("/user/toIndex");
         // 设置未授权界面，权限认证失败会访问该 URL
