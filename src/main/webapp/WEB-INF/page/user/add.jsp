@@ -170,7 +170,7 @@
                                 parent.window.location.href = "<%=request.getContextPath()%>/user/toShow?types="+"1";
                                 return;
                             }
-                            //parent.window.location.href = "<%=request.getContextPath()%>/user/toShow";
+                            window.location.href = "<%=request.getContextPath()%>/user/toShow";
 
                         });
                     })
@@ -223,7 +223,7 @@
                 <option value="1">管理员</option>
             </c:if>
         </select>
-    <c:if test="${USER.type == '1' &&  types != '1'}">
+    <c:if test="${types != '1'}">
     <div id="Event">
         科室:<select name="doctorWork">
                  <option value="内科">内科</option>
@@ -232,8 +232,8 @@
                 <option value="儿科">儿科</option>
                  <option value="中医科">中医科</option>
              </select><br><br>
-        </c:if>
     </div>
+    </c:if>
     <br/>
     <input type = "submit"/>
     <c:if test="${USER.type != '1'}">

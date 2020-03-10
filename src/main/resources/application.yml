@@ -12,8 +12,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: 123456
-    url: jdbc:mysql://127.0.0.1:3306/djmall?useSSL=false
+    password: feiyu
+    url: jdbc:mysql://127.0.0.1:3306/hospital?useSSL=false
   mvc:
     view:
       prefix: /WEB-INF/page/ # \u9875\u9762\u524D\u7F00
