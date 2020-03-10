@@ -3,7 +3,7 @@
 <html lang="zh-ch">
 <head>
 <meta charset="UTF-8">
-	<title>基本样式页</title>
+	<title>医院挂号系统</title>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/res/js/jquery-1.12.4.min.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/res/js/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/res/js/ui.js"></script>

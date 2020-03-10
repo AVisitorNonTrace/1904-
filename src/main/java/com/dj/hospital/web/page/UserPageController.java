@@ -56,7 +56,7 @@ public class UserPageController {
         userUpdateWrapper.set("status",status);
         userUpdateWrapper.eq("id",id);
         userService.update(userUpdateWrapper);
-        return "redirect:/user/toLogin";
+        return "redirect:/user/toIndex";
     }
 
     /**
