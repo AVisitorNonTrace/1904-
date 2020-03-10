@@ -75,7 +75,7 @@ public class RegisterController {
                     .eq("user_id", register.getUserId()).eq("is_del", SystemConstant.IS_NOT_DEL);
             Register register1 = registerService.getOne(registerQueryWrapper);
             if (register1!= null && register1.getDoctorId().equals(register.getDoctorId())) {
-                return new ResultModel<>().error("您也预约过该医生,请等待!");
+                return new ResultModel<>().error("您已预约过该医生,请等待!");
             }
             if (registerList.size()  == 1) {
                 return new ResultModel<>().error("您最多预约一位医生,如果需要预约其他医生,请去取消!");

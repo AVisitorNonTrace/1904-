@@ -45,6 +45,7 @@
                     html += "<td>"+u.remarks+"</td>";
                     html += "<td>"+u.orderStatusShow+"</td>";
                     html += "<td>"+u.createTime+"</td>";
+
                     html += "</tr>";
                 }
                 $("#tbd").html(html);
