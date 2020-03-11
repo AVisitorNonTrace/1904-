@@ -37,15 +37,15 @@ public class RegisterController {
             IPage<Register> page = new Page<>(pageNo,SystemConstant.PAGE_SIZE);
             //定义_开始页_size
             QueryWrapper<Register> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("is_del",SystemConstant.IS_NOT_DEL);
+            queryWrapper.eq("is_del", SystemConstant.IS_NOT_DEL);
             User user = (User) session.getAttribute("USER");
             if (user.getType().equals(SystemConstant.TYPE_DOCTOR)){
-                queryWrapper.eq("doctor_id",user.getId());
+                queryWrapper.eq("doctor_id", user.getId());
             }
             if (user.getType().equals(SystemConstant.TYPE_SICK)){
-                queryWrapper.eq("user_id",user.getId());
+                queryWrapper.eq("user_id", user.getId());
             }
-            IPage<Register> pageInfo = registerService.page(page,queryWrapper);
+            IPage<Register> pageInfo = registerService.page(page, queryWrapper);
             //返回_总页码
             map.put("totalNum", pageInfo.getPages());
             //返回_展示数据
@@ -65,22 +65,26 @@ public class RegisterController {
         try {
             QueryWrapper<Register> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("user_id", register.getUserId())
-                    .eq("is_del", SystemConstant.IS_NOT_DEL).ne("order_status", 3);
+                    .eq("is_del", SystemConstant.IS_NOT_DEL)
+                    .ne("order_status", SystemConstant.ORDER_STATUS_FINISG);
             List<Register> registerList = registerService.list(queryWrapper);
             QueryWrapper<Register> wrapper = new QueryWrapper<>();
-            wrapper.eq("doctor_id", register.getDoctorId()).ne("order_status", 3);
+            wrapper.eq("doctor_id", register.getDoctorId())
+                    .ne("order_status", SystemConstant.ORDER_STATUS_FINISG);
             List<Register> list = registerService.list(wrapper);
             QueryWrapper<Register> registerQueryWrapper = new QueryWrapper<>();
-            registerQueryWrapper.eq("doctor_id", register.getDoctorId()).ne("order_status", 3)
-                    .eq("user_id", register.getUserId()).eq("is_del", SystemConstant.IS_NOT_DEL);
+            registerQueryWrapper.eq("doctor_id", register.getDoctorId())
+                    .ne("order_status", SystemConstant.ORDER_STATUS_FINISG)
+                    .eq("user_id", register.getUserId())
+                    .eq("is_del", SystemConstant.IS_NOT_DEL);
             Register register1 = registerService.getOne(registerQueryWrapper);
             if (register1!= null && register1.getDoctorId().equals(register.getDoctorId())) {
                 return new ResultModel<>().error("您已预约过该医生,请等待!");
             }
-            if (registerList.size()  == 1) {
+            if (registerList.size()  == SystemConstant.ORDER_SIZE_MIN) {
                 return new ResultModel<>().error("您最多预约一位医生,如果需要预约其他医生,请去取消!");
             }
-            if (list.size() == 5) {
+            if (list.size() == SystemConstant.ORDER_SIZE_MAX) {
                 return new ResultModel<>().error("该医生已经预约了很多人了,请等待再进行预约!");
             }
 
@@ -101,16 +105,16 @@ public class RegisterController {
     public ResultModel<Object> list(Integer orderStatus, Integer pageNo, HttpSession session){
         HashMap<String,Object> map = new HashMap<>();
         try {
-            IPage<Register> page = new Page<>(pageNo,SystemConstant.PAGE_SIZE);
+            IPage<Register> page = new Page<>(pageNo, SystemConstant.PAGE_SIZE);
             //定义_开始页_size
             QueryWrapper<Register> queryWrapper = new QueryWrapper<>();
             //患者只能看到自己
             User user = (User) session.getAttribute("USER");
             if (user.getType().equals(SystemConstant.TYPE_SICK)){
-                queryWrapper.eq("user_id",user.getId());
-                queryWrapper.eq("is_del",SystemConstant.IS_NOT_DEL);
+                queryWrapper.eq("user_id", user.getId());
+                queryWrapper.eq("is_del", SystemConstant.IS_NOT_DEL);
                 queryWrapper.eq("order_status", orderStatus);
-                IPage<Register> pageInfo = registerService.page(page,queryWrapper);
+                IPage<Register> pageInfo = registerService.page(page, queryWrapper);
                 //返回_总页码
                 map.put("totalNum", pageInfo.getPages());
                 //返回_展示数据
@@ -118,7 +122,7 @@ public class RegisterController {
                 return new ResultModel<>().success(map);
             }
             //管理员看到所有
-            queryWrapper.orderByDesc("id").eq("is_del",SystemConstant.IS_NOT_DEL);
+            queryWrapper.orderByDesc("id").eq("is_del", SystemConstant.IS_NOT_DEL);
             IPage<Register> pageInfo = registerService.page(page,queryWrapper);
             //返回_总页码
             map.put("totalNum", pageInfo.getPages());
@@ -135,10 +139,11 @@ public class RegisterController {
      * 张慧_用户删除
      */
     @DeleteMapping
-    public ResultModel<Object> del(Integer id,Integer isDel){
+    public ResultModel<Object> del(Integer id, Integer isDel){
         try {
             UpdateWrapper<Register> userUpdateWrapper = new UpdateWrapper<>();
-            userUpdateWrapper.set("is_del",isDel).eq("id",id);
+            userUpdateWrapper.set("is_del", isDel)
+                    .eq("id", id);
             registerService.update(userUpdateWrapper);
             return new ResultModel<>().success(true);
         } catch (Exception e) {
@@ -154,7 +159,8 @@ public class RegisterController {
     public ResultModel<Object> update(Register register){
         try {
             UpdateWrapper<Register> registerUpdateWrapper = new UpdateWrapper<>();
-            registerUpdateWrapper.set("order_status", register.getOrderStatus()).set("drug_name", register.getDrugName())
+            registerUpdateWrapper.set("order_status", register.getOrderStatus())
+                    .set("drug_name", register.getDrugName())
                     .eq("id", register.getId());
             registerService.update(registerUpdateWrapper);
             return new ResultModel<>().success("处理完毕");
@@ -171,7 +177,8 @@ public class RegisterController {
     public ResultModel<Object> updateDrug(Register register){
         try {
             UpdateWrapper<Register> registerUpdateWrapper = new UpdateWrapper<>();
-            registerUpdateWrapper.set("order_status",register.getOrderStatus()).eq("id",register.getId());
+            registerUpdateWrapper.set("order_status", register.getOrderStatus())
+                    .eq("id", register.getId());
             registerService.update(registerUpdateWrapper);
             return new ResultModel<>().success("处理完毕");
         } catch (Exception e) {

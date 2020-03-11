@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -45,7 +44,8 @@ public class RegisterPageController {
     @RequestMapping("toAdd")
     public String toAdd(User user, Model model) throws Exception {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("is_del", SystemConstant.IS_NOT_DEL).eq("type", SystemConstant.TYPE_DOCTOR);
+        queryWrapper.eq("is_del", SystemConstant.IS_NOT_DEL)
+                .eq("type", SystemConstant.TYPE_DOCTOR);
         List<User> userList = userService.list(queryWrapper);
         model.addAttribute("userList", userList);
         return "register/add";
@@ -56,7 +56,7 @@ public class RegisterPageController {
     @RequestMapping("toUpdate/{id}")
     public String toUpdate(@PathVariable Integer id, ModelMap map) {
         QueryWrapper<Register> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("id",id);
+        queryWrapper.eq("id", id);
         Register register = registerService.getOne(queryWrapper);
         map.put("register",register);
         return "register/update";
@@ -75,7 +75,7 @@ public class RegisterPageController {
     @RequestMapping("toAddDrug/{id}")
     public String toAddDrug(@PathVariable Integer id, Model model) {
         QueryWrapper<Register> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("id",id);
+        queryWrapper.eq("id", id);
         Register register = registerService.getOne(queryWrapper);
         QueryWrapper<Drug> queryWrapper2 = new QueryWrapper<>();
         queryWrapper2.eq("is_del", SystemConstant.IS_NOT_DEL);
@@ -90,12 +90,12 @@ public class RegisterPageController {
      *  去展示_已开药品
      */
     @RequestMapping("toSeeDrug/{id}")
-    public String toSeeDrug(@PathVariable Integer id,ModelMap modelMap) {
+    public String toSeeDrug(@PathVariable Integer id, ModelMap modelMap) {
         //查询此id开的药品
         QueryWrapper<Register> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("id",id);
+        queryWrapper.eq("id", id);
         Register register = registerService.getOne(queryWrapper);
-        modelMap.put("register",register);
+        modelMap.put("register", register);
         return "register/see_open_drug_show";
     }
 }

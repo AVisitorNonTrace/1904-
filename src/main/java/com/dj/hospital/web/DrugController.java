@@ -34,8 +34,8 @@ public class DrugController {
             if (!StringUtils.isEmpty(drug.getDrugName())) {
                 queryWrapper.like("drug_name", drug.getDrugName());
             }
-            queryWrapper.eq("is_del",SystemConstant.IS_NOT_DEL);
-                IPage<Drug> pageInfo = drugService.page(page,queryWrapper);
+            queryWrapper.eq("is_del", SystemConstant.IS_NOT_DEL);
+                IPage<Drug> pageInfo = drugService.page(page, queryWrapper);
                 //返回_总页码
                 map.put("totalNum", pageInfo.getPages());
                 //返回_展示数据
