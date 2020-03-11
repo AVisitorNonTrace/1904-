@@ -184,12 +184,12 @@
     <input type="hidden" value="1" id="pageNo" name="pageNo">
     <c:if test="${USER.type == '1'}">
         用户名:<input type = "text" name = "userName"/><br/><br/>
-        性别:<input type = "radio" name = "sex" value="1"/>男
-            <input type = "radio" name = "sex" value="2"/>女<br/><br/>
+        性别:<input type = "checkbox" name = "sex" value="1"/>男
+            <input type = "checkbox" name = "sex" value="2"/>女<br/><br/>
         <c:if test="${types == '4'}">
         身份:
-            <input type="radio" name="type" value="2">医生
-            <input type="radio" name="type" value="3">患者
+            <input type="checkbox" name="type" value="2">医生
+            <input type="checkbox" name="type" value="3">患者
         </c:if>
         <input type = "hidden" name = "isDel" value = "1"/><br/><br/>
     <div class="layui-btn-group">

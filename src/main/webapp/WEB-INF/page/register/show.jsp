@@ -59,7 +59,7 @@
                             if (${USER.type}==2)
                             {
                                 if (u.orderStatus == 1) {
-                                html += "<td>"+"<input type='button' value='开药' onclick='add("+u.id+")'/>"+"</td>" ;
+                                html += "<td>"+"<input type='button' value='开药' onclick='add("+u.id+")' class=\"layui-btn layui-btn-normal\"//>"+"</td>" ;
 
                             }
                             if (u.orderStatus == 2) {

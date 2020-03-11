@@ -249,7 +249,7 @@
             </c:if>
         </select>
     <c:if test="${types != '1'}">
-    <div id="Event">
+    <div id="Event"><br>
         科室:<select name="doctorWork">
                  <option value="内科">内科</option>
                 <option value="外科">外科</option>
