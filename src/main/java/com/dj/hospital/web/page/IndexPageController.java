@@ -36,7 +36,7 @@ public class IndexPageController {
 		QueryWrapper<Register> queryWrapper = new QueryWrapper<>();
 		queryWrapper.eq("doctor_id", user.getId())
 		.eq("is_del", SystemConstant.IS_NOT_DEL)
-		.ne("order_status", 3);
+		.ne("order_status", SystemConstant.ORDER_STATUS_FINISG);
 		List<Register> list = registerService.list(queryWrapper);
 		model.addAttribute("size", list.size());
 		return "/index/right";

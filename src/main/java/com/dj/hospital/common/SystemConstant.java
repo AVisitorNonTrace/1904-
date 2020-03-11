@@ -57,4 +57,19 @@ public interface SystemConstant {
      */
     Integer ORDER_STATUS_IN = 2;
 
+    /**
+     * 医生最多预约多少位
+     */
+    Integer ORDER_SIZE_MAX = 5;
+
+    /**
+     * 患者每次预约数量
+     */
+    Integer ORDER_SIZE_MIN = 1;
+
+    /**
+     * 成功状态码
+     */
+    Integer STATUS_TRUE = 200;
+
 }

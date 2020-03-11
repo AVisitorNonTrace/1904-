@@ -67,7 +67,7 @@ public class UserController {
             //shiro的登陆方式
             //得到认证
             Subject subject = SecurityUtils.getSubject();
-            UsernamePasswordToken token = new UsernamePasswordToken(userName,password);
+            UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
             subject.login(token);
             return new ResultModel<>().success("登录成功");
         } catch (Exception e) {
@@ -94,7 +94,7 @@ public class UserController {
     @PostMapping("findByPhone")
     public Boolean findByPhone(String phone) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("phone",phone);
+        queryWrapper.eq("phone", phone);
         User user = userService.getOne(queryWrapper);
         return null == user ? true : false;
     }
@@ -105,7 +105,7 @@ public class UserController {
     @PostMapping("findByUserEmail")
     public Boolean findByUserEmail(String userEmail) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_email",userEmail);
+        queryWrapper.eq("user_email", userEmail);
         User user = userService.getOne(queryWrapper);
         return null == user ? true : false;
     }
@@ -120,7 +120,7 @@ public class UserController {
             userService.save(user);
             String context = "<a href='http://localhost:8080/"+request.getContextPath()+"/user/active?id="+user.getId()+"&status="+SystemConstant.STATUS_IS_ACTIVATE+"'>点此激活</a>";
             System.out.print(context);
-            JavaEmailUtils.sendEmail(user.getUserEmail(),"用户激活",context);
+            JavaEmailUtils.sendEmail(user.getUserEmail(),"用户激活", context);
             return new ResultModel<>().success("注册成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -138,7 +138,7 @@ public class UserController {
                 return new ResultModel<>().error("请输入手机号");
             }
             QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("phone",phone);
+            queryWrapper.eq("phone", phone);
             User user = userService.getOne(queryWrapper);
             if (null == user) {
                 return new ResultModel<>().error("手机号不存在");
@@ -149,10 +149,10 @@ public class UserController {
             user.setCodeTime(cal.getTime());
             String code=  String.valueOf(MessageVerifyUtils.getNewcode());
             user.setCode(code);
-            MessageVerifyUtils.sendSms(user.getPhone(),code);
+            MessageVerifyUtils.sendSms(user.getPhone(), code);
             UpdateWrapper<User> userUpdateWrapper = new UpdateWrapper<>();
-            userUpdateWrapper.set("code",code).set("code_time",user.getCodeTime());
-            userUpdateWrapper.eq("id",user.getId());
+            userUpdateWrapper.set("code",code).set("code_time", user.getCodeTime());
+            userUpdateWrapper.eq("id", user.getId());
             userService.update(userUpdateWrapper);
             return new ResultModel<>().success("验证码发送成功");
         } catch (ClientException e) {
@@ -165,13 +165,14 @@ public class UserController {
      * 张慧_短信验证码登录
      */
     @RequestMapping("loginPhoneMessages")
-    public ResultModel<Object> loginPhoneMessages(User user,HttpSession session) {
+    public ResultModel<Object> loginPhoneMessages(User user, HttpSession session) {
         try {
             if (StringUtils.isEmpty(user.getPhone()) || StringUtils.isEmpty(user.getCode())) {
                 return new ResultModel<>().error("输入框不能为空");
             }
             QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("phone",user.getPhone()).eq("code",user.getCode());
+            queryWrapper.eq("phone",user.getPhone())
+                    .eq("code",user.getCode());
             User user1 = userService.getOne(queryWrapper);
             if (null == user1) {
                 return new ResultModel<Object>().error("手机号或验证码错误");
@@ -194,14 +195,14 @@ public class UserController {
     public ResultModel<Object> list(User user1, String types, Integer pageNo, HttpSession session){
         HashMap<String,Object> map = new HashMap<>();
         try {
-            IPage<User> page = new Page<>(pageNo,SystemConstant.PAGE_SIZE);
+            IPage<User> page = new Page<>(pageNo, SystemConstant.PAGE_SIZE);
             User user = (User) session.getAttribute("USER");
             //定义_开始页_size
             QueryWrapper<User> queryWrapper = new QueryWrapper<>();
             //患者/医生只能看到自己
             if (user.getType().equals(SystemConstant.TYPE_SICK) || user.getType().equals(SystemConstant.TYPE_DOCTOR)){
                 queryWrapper.eq("id",user.getId());
-                IPage<User> pageInfo = userService.page(page,queryWrapper);
+                IPage<User> pageInfo = userService.page(page, queryWrapper);
                 //返回_总页码
                 map.put("totalNum", pageInfo.getPages());
                 //返回_展示数据
@@ -215,16 +216,17 @@ public class UserController {
                         .or().like("user_email", user1.getUserName()));
             }
             if (null != user1.getSex()) {
-                queryWrapper.eq("sex",user1.getSex());
+                queryWrapper.eq("sex", user1.getSex());
             }
             if (!StringUtils.isEmpty(user1.getType())) {
-                queryWrapper.eq("type",user1.getType());
+                queryWrapper.eq("type", user1.getType());
             }
             //管理员看医生和患者__人员管理
             if (types.equals(SystemConstant.TYPE_DOCTOR_SICK)){
-                queryWrapper.ne("type",SystemConstant.TYPE_ADMIN);
-                queryWrapper.orderByDesc("id").eq("is_del",SystemConstant.IS_NOT_DEL);
-                IPage<User> pageInfo = userService.page(page,queryWrapper);
+                queryWrapper.ne("type", SystemConstant.TYPE_ADMIN);
+                queryWrapper.orderByDesc("id")
+                        .eq("is_del", SystemConstant.IS_NOT_DEL);
+                IPage<User> pageInfo = userService.page(page, queryWrapper);
                 //返回_总页码
                 map.put("totalNum", pageInfo.getPages());
                 //返回_展示数据
@@ -233,9 +235,10 @@ public class UserController {
             }
             //管理员看自己__管理员管理
             if (types.equals(SystemConstant.TYPE_ADMIN)){
-                queryWrapper.eq("type",SystemConstant.TYPE_ADMIN);
-                queryWrapper.orderByDesc("id").eq("is_del",SystemConstant.IS_NOT_DEL);
-                IPage<User> pageInfo = userService.page(page,queryWrapper);
+                queryWrapper.eq("type",SystemConstant.TYPE_ADMIN)
+                        .orderByDesc("id")
+                        .eq("is_del",SystemConstant.IS_NOT_DEL);
+                IPage<User> pageInfo = userService.page(page, queryWrapper);
                 //返回_总页码
                 map.put("totalNum", pageInfo.getPages());
                 //返回_展示数据
@@ -263,10 +266,10 @@ public class UserController {
     public ResultModel<Object> doctorShow(User user1, Integer pageNo){
         HashMap<String,Object> map = new HashMap<>();
         try {
-            IPage<User> page = new Page<>(pageNo,SystemConstant.PAGE_SIZE);
+            IPage<User> page = new Page<>(pageNo, SystemConstant.PAGE_SIZE);
             //定义_开始页_size
             QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-           queryWrapper.eq("type", "2");
+           queryWrapper.eq("type", SystemConstant.TYPE_DOCTOR);
 
             if (!StringUtils.isEmpty(user1.getUserName())) {
                 queryWrapper.or(i -> i.like("user_name", user1.getUserName())
@@ -276,8 +279,9 @@ public class UserController {
             if (null != user1.getSex()) {
                 queryWrapper.eq("sex",user1.getSex());
             }
-            queryWrapper.orderByDesc("id").eq("is_del",SystemConstant.IS_NOT_DEL);
-            IPage<User> pageInfo = userService.page(page,queryWrapper);
+            queryWrapper.orderByDesc("id")
+                    .eq("is_del", SystemConstant.IS_NOT_DEL);
+            IPage<User> pageInfo = userService.page(page, queryWrapper);
             //返回_总页码
             map.put("totalNum", pageInfo.getPages());
             //返回_展示数据
@@ -294,10 +298,11 @@ public class UserController {
      * 张慧_用户删除
      */
     @DeleteMapping
-    public ResultModel<Object> del(Integer id,Integer isDel){
+    public ResultModel<Object> del(Integer id, Integer isDel){
         try {
             UpdateWrapper<User> userUpdateWrapper = new UpdateWrapper<>();
-            userUpdateWrapper.set("is_del",isDel).eq("id",id);
+            userUpdateWrapper.set("is_del", isDel)
+                    .eq("id", id);
             userService.update(userUpdateWrapper);
             return new ResultModel<>().success(true);
         } catch (Exception e) {
@@ -313,11 +318,14 @@ public class UserController {
     public ResultModel<Object> updateUser(User user){
         try {
             UpdateWrapper<User> userUpdateWrapper = new UpdateWrapper<>();
-            userUpdateWrapper.set("user_name",user.getUserName()).set("user_email",user.getUserEmail())
-                    .set("phone",user.getPhone()).set("password",user.getPassword())
-                    .set("sex",user.getSex()).set("age",user.getAge())
-                    .set("type",user.getType())
-                    .eq("id",user.getId());
+            userUpdateWrapper.set("user_name", user.getUserName())
+                    .set("user_email", user.getUserEmail())
+                    .set("phone", user.getPhone())
+                    .set("password", user.getPassword())
+                    .set("sex", user.getSex())
+                    .set("age", user.getAge())
+                    .set("type", user.getType())
+                    .eq("id", user.getId());
             userService.update(userUpdateWrapper);
             return new ResultModel<>().success(true);
         } catch (Exception e) {
@@ -339,7 +347,8 @@ public class UserController {
                 return new ResultModel<>().error("输入框不能为空");
             }
             QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("phone",user.getPhone()).eq("code",user.getCode());
+            queryWrapper.eq("phone", user.getPhone())
+                    .eq("code", user.getCode());
             User user1 = userService.getOne(queryWrapper);
             if (null == user1) {
                 return new ResultModel<Object>().error("手机号或验证码错误");
@@ -348,7 +357,7 @@ public class UserController {
                 return new ResultModel<Object>().error("验证码已失效");
             }
             map.put("id", user1.getId());
-            map.put("msg", 200);
+            map.put("msg", SystemConstant.STATUS_TRUE);
             return new ResultModel<>().success(map);
         } catch (Exception e) {
             e.printStackTrace();

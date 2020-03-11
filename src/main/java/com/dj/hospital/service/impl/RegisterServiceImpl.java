@@ -12,6 +12,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor = Exception.class)
 public class RegisterServiceImpl extends ServiceImpl<RegisterMapper, Register> implements RegisterService {
 
-    @Autowired
-    private RegisterMapper registerMapper;
+
 }

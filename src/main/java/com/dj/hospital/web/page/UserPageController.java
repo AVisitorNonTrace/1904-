@@ -42,8 +42,8 @@ public class UserPageController {
     @RequestMapping("toAdd")
     public String toAdd(String types, ModelMap model) throws Exception {
         String salt = PasswordSecurityUtil.generateSalt();
-        model.put("salt",salt);
-        model.put("types",types);
+        model.put("salt", salt);
+        model.put("types", types);
         return "user/add";
     }
 
@@ -53,8 +53,8 @@ public class UserPageController {
     @RequestMapping("active")
     public String active(Integer id, Integer status) {
         UpdateWrapper<User> userUpdateWrapper = new UpdateWrapper<>();
-        userUpdateWrapper.set("status",status);
-        userUpdateWrapper.eq("id",id);
+        userUpdateWrapper.set("status", status);
+        userUpdateWrapper.eq("id", id);
         userService.update(userUpdateWrapper);
         return "redirect:/user/toIndex";
     }
@@ -93,7 +93,7 @@ public class UserPageController {
         modelAndView.setViewName("user/update_pwd");
         modelAndView.addObject("user", user);
         String salt = PasswordSecurityUtil.generateSalt();
-        modelAndView.addObject("salt",salt);
+        modelAndView.addObject("salt", salt);
         return modelAndView;
     }
     /**
@@ -102,10 +102,10 @@ public class UserPageController {
     @RequestMapping("toUpdate")
     public String toUpdate(Integer id,String types, ModelMap map) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("id",id);
+        queryWrapper.eq("id", id);
         User user = userService.getOne(queryWrapper);
-        map.put("user",user);
-        map.put("types",types);
+        map.put("user", user);
+        map.put("types", types);
         return "user/update";
     }
     /**
